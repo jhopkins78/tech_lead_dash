@@ -1,0 +1,34 @@
+{
+  "integrations": [
+    {
+      "name": "Salesforce",
+      "logo": "integration-salesforce.png",
+      "connected": true
+    },
+    {
+      "name": "Gmail",
+      "logo": "integration-gmail.png",
+      "connected": true
+    },
+    {
+      "name": "Slack",
+      "logo": "integration-slack.png",
+      "connected": true
+    },
+    {
+      "name": "HubSpot",
+      "logo": "integration-hubspot.png",
+      "connected": false
+    },
+    {
+      "name": "Zapier",
+      "logo": "integration-zapier.png",
+      "connected": false
+    },
+    {
+      "name": "LinkedIn Sales Navigator",
+      "logo": "integration-linkedin.png",
+      "connected": false
+    }
+  ]
+}

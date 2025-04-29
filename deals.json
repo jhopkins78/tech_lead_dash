@@ -1,0 +1,124 @@
+{
+  "deals": [
+    {
+      "id": "DL001",
+      "name": "Enterprise Software Solution",
+      "company": "Acme Corporation",
+      "value": 125000,
+      "stage": "Proposal",
+      "probability": 70,
+      "expectedCloseDate": "2025-05-15",
+      "owner": "John Smith",
+      "lastActivity": "2025-04-18",
+      "notes": "Proposal sent, awaiting feedback"
+    },
+    {
+      "id": "DL002",
+      "name": "Marketing Platform Upgrade",
+      "company": "Globex Inc",
+      "value": 45000,
+      "stage": "Negotiation",
+      "probability": 85,
+      "expectedCloseDate": "2025-04-30",
+      "owner": "Sarah Johnson",
+      "lastActivity": "2025-04-19",
+      "notes": "Discussing contract terms"
+    },
+    {
+      "id": "DL003",
+      "name": "Executive Dashboard Implementation",
+      "company": "Initech",
+      "value": 78000,
+      "stage": "Discovery",
+      "probability": 40,
+      "expectedCloseDate": "2025-06-10",
+      "owner": "Michael Brown",
+      "lastActivity": "2025-04-15",
+      "notes": "Initial requirements gathering"
+    },
+    {
+      "id": "DL004",
+      "name": "Sales Team Enablement",
+      "company": "Umbrella Corp",
+      "value": 62500,
+      "stage": "Closed Won",
+      "probability": 100,
+      "expectedCloseDate": "2025-04-10",
+      "owner": "Emily Davis",
+      "lastActivity": "2025-04-10",
+      "notes": "Contract signed, implementation starting next week"
+    },
+    {
+      "id": "DL005",
+      "name": "IT Infrastructure Upgrade",
+      "company": "Stark Industries",
+      "value": 185000,
+      "stage": "Qualification",
+      "probability": 30,
+      "expectedCloseDate": "2025-07-01",
+      "owner": "David Wilson",
+      "lastActivity": "2025-04-17",
+      "notes": "Technical evaluation in progress"
+    },
+    {
+      "id": "DL006",
+      "name": "Business Intelligence Suite",
+      "company": "Wayne Enterprises",
+      "value": 95000,
+      "stage": "Closed Won",
+      "probability": 100,
+      "expectedCloseDate": "2025-03-25",
+      "owner": "Jennifer Taylor",
+      "lastActivity": "2025-03-25",
+      "notes": "Implementation completed successfully"
+    },
+    {
+      "id": "DL007",
+      "name": "Product Integration",
+      "company": "Cyberdyne Systems",
+      "value": 42000,
+      "stage": "Closed Lost",
+      "probability": 0,
+      "expectedCloseDate": "2025-04-05",
+      "owner": "Robert Anderson",
+      "lastActivity": "2025-04-02",
+      "notes": "Client chose competitor solution"
+    },
+    {
+      "id": "DL008",
+      "name": "Sales Analytics Platform",
+      "company": "Oscorp Industries",
+      "value": 68000,
+      "stage": "Demo",
+      "probability": 55,
+      "expectedCloseDate": "2025-05-20",
+      "owner": "Lisa Martinez",
+      "lastActivity": "2025-04-16",
+      "notes": "Demo scheduled for next week"
+    },
+    {
+      "id": "DL009",
+      "name": "Enterprise Security Solution",
+      "company": "Massive Dynamic",
+      "value": 215000,
+      "stage": "Proposal",
+      "probability": 65,
+      "expectedCloseDate": "2025-06-15",
+      "owner": "Thomas Garcia",
+      "lastActivity": "2025-04-14",
+      "notes": "Proposal in preparation"
+    },
+    {
+      "id": "DL010",
+      "name": "Marketing Automation",
+      "company": "Soylent Corp",
+      "value": 37500,
+      "stage": "Discovery",
+      "probability": 25,
+      "expectedCloseDate": "2025-06-30",
+      "owner": "Amanda Rodriguez",
+      "lastActivity": "2025-04-19",
+      "notes": "Initial discovery call completed"
+    }
+  ]
+}

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Market Signal Scanner - Lead Commander</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Market Signal Scanner - Monitor industry trends, news, and social signals that impact your leads and sales opportunities.">
+</head>
+<body>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                Lead Commander
+            </div>
+            
+            <nav class="nav">
+                <a href="../index.html" class="nav-item">Dashboard</a>
+                <a href="leads.html" class="nav-item">Leads</a>
+                <a href="pipeline.html" class="nav-item">Pipeline</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="market-signals.html" class="nav-item active">Market Signals</a>
+                <a href="automation.html" class="nav-item">Automation</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search market signals, news, trends...">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <div class="notification-badge">3</div>
+                    
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <div class="notification-title">Notifications</div>
+                            <div class="notification-actions">Mark all as read</div>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Weekly lead report is ready</div>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">🔥</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">High-priority lead assigned: John Smith from Acme Corp</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">📅</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Follow-up reminder: Call Sarah Johnson</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-footer">
+                            View all notifications
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+                
+                <button class="btn btn-primary" id="upload-btn">
+                    Import Leads
+                </button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JS</div>
+                    <div class="user-info">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Sales Manager</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Market Signal Scanner</h1>
+                
+                <div class="header-actions">
+                    <div class="filter-dropdown">
+                        <button class="btn btn-outline">Industry Filter <span class="dropdown-icon">▼</span></button>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-item">
+                                <label>
+                                    <input type="checkbox" checked> All Industries
+                                </label>
+                            </div>
+                            <div class="dropdown-item">
+                                <label>
+                                    <input type="checkbox" checked> Technology
+                                </label>
+                            </div>
+                            <div class="dropdown-item">
+                                <label>
+                                    <input type="checkbox" checked> Finance
+                                </label>
+                            </div>
+                            <div class="dropdown-item">
+                                <label>
+                                    <input type="checkbox" checked> Healthcare
+                                </label>
+                            </div>
+                            <div class="dropdown-item">
+                                <label>
+                                    <input type="checkbox" checked> Manufacturing
+                                </label>
+                            </div>
+                            <div class="dropdown-item">
+                                <label>
+                                    <input type="checkbox" checked> Retail
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-primary">
+                        + Add Signal Monitor
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Market Signal Overview -->
+            <div class="grid">
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Active Signals</div>
+                        <div class="metric-value">24</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 4 new today
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">High Impact</div>
+                        <div class="metric-value">8</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 2 new today
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Sentiment Score</div>
+                        <div class="metric-value">72%</div>
+                        <div class="metric-trend trend-down">
+                            <span class="trend-icon">↓</span> 3% from yesterday
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Monitored Keywords</div>
+                        <div class="metric-value">156</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 12 added this week
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- News & Signals -->
+            <div class="grid">
+                <div class="col-8 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">GPT-Curated News</div>
+                            <div class="card-actions">
+                                <div class="date-filter">
+                                    <button class="date-filter-btn active">Today</button>
+                                    <button class="date-filter-btn">Week</button>
+                                    <button class="date-filter-btn">Month</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="news-list">
+                            <div class="news-item high-impact">
+                                <div class="news-header">
+                                    <div class="news-source">TechCrunch</div>
+                                    <div class="news-time">2 hours ago</div>
+                                </div>
+                                <div class="news-title">Major Tech Merger: Acme Corp Acquires Innovative Solutions for $2.5B</div>
+                                <div class="news-summary">
+                                    The acquisition is expected to reshape the CRM landscape, with Acme gaining access to Innovative's AI-powered analytics platform.
+                                </div>
+                                <div class="news-footer">
+                                    <div class="news-impact">
+                                        <span class="impact-label">Impact:</span>
+                                        <span class="impact-value high">High</span>
+                                    </div>
+                                    <div class="news-leads">
+                                        <span class="leads-label">Affected Leads:</span>
+                                        <span class="leads-value">12</span>
+                                    </div>
+                                    <div class="news-actions">
+                                        <button class="btn btn-sm btn-outline">View Leads</button>
+                                        <button class="btn btn-sm btn-outline">Read More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="news-item medium-impact">
+                                <div class="news-header">
+                                    <div class="news-source">Wall Street Journal</div>
+                                    <div class="news-time">5 hours ago</div>
+                                </div>
+                                <div class="news-title">Financial Services Sector Sees 15% Growth in Q2 2025</div>
+                                <div class="news-summary">
+                                    Analysts attribute the growth to increased digital transformation initiatives and adoption of AI-powered solutions.
+                                </div>
+                                <div class="news-footer">
+                                    <div class="news-impact">
+                                        <span class="impact-label">Impact:</span>
+                                        <span class="impact-value medium">Medium</span>
+                                    </div>
+                                    <div class="news-leads">
+                                        <span class="leads-label">Affected Leads:</span>
+                                        <span class="leads-value">8</span>
+                                    </div>
+                                    <div class="news-actions">
+                                        <button class="btn btn-sm btn-outline">View Leads</button>
+                                        <button class="btn btn-sm btn-outline">Read More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="news-item high-impact">
+                                <div class="news-header">
+                                    <div class="news-source">Healthcare Daily</div>
+                                    <div class="news-time">8 hours ago</div>
+                                </div>
+                                <div class="news-title">New Healthcare Regulations to Require Enhanced Data Security Measures</div>
+                                <div class="news-summary">
+                                    Healthcare providers will need to implement stronger data protection and compliance solutions by Q1 2026.
+                                </div>
+                                <div class="news-footer">
+                                    <div class="news-impact">
+                                        <span class="impact-label">Impact:</span>
+                                        <span class="impact-value high">High</span>
+                                    </div>
+                                    <div class="news-leads">
+                                        <span class="leads-label">Affected Leads:</span>
+                                        <span class="leads-value">15</span>
+                                    </div>
+                                    <div class="news-actions">
+                                        <button class="btn btn-sm btn-outline">View Leads</button>
+                                        <button class="btn btn-sm btn-outline">Read More</button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="news-item low-impact">
+                                <div class="news-header">
+                                    <div class="news-source">Business Insider</div>
+                                    <div class="news-time">12 hours ago</div>
+                                </div>
+                                <div class="news-title">Global Enterprises Opens New Office in Singapore</div>
+                                <div class="news-summary">
+                                    The expansion is part of the company's strategy to strengthen its presence in the Asia-Pacific region.
+                                </div>
+                                <div class="news-footer">
+                                    <div class="news-impact">
+                                        <span class="impact-label">Impact:</span>
+                                        <span class="impact-value low">Low</span>
+                                    </div>
+                                    <div class="news-leads">
+                            
+(Content truncated due to size limit. Use line ranges to read in chunks)

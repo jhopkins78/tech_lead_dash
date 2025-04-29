@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Intelligence Center - Lead Commander</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Lead Intelligence Center - Comprehensive lead management interface with advanced filtering, sorting, and visualization options.">
+</head>
+<body>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                Lead Commander
+            </div>
+            
+            <nav class="nav">
+                <a href="../index.html" class="nav-item">Dashboard</a>
+                <a href="leads.html" class="nav-item active">Leads</a>
+                <a href="pipeline.html" class="nav-item">Pipeline</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="automation.html" class="nav-item">Automation</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search leads, companies, tasks...">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <div class="notification-badge">3</div>
+                    
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <div class="notification-title">Notifications</div>
+                            <div class="notification-actions">Mark all as read</div>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Weekly lead report is ready</div>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">🔥</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">High-priority lead assigned: John Smith from Acme Corp</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">📅</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Follow-up reminder: Call Sarah Johnson</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-footer">
+                            View all notifications
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+                
+                <button class="btn btn-primary" id="upload-btn">
+                    Import Leads
+                </button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JS</div>
+                    <div class="user-info">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Sales Manager</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Lead Intelligence Center</h1>
+                
+                <div class="header-actions">
+                    <div class="view-toggle">
+                        <button class="view-toggle-btn active" data-view="table">
+                            <span class="toggle-icon">📋</span> Table View
+                        </button>
+                        <button class="view-toggle-btn" data-view="heatmap">
+                            <span class="toggle-icon">🔥</span> Heatmap View
+                        </button>
+                    </div>
+                    
+                    <button class="btn btn-primary">
+                        + Add Lead
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Lead Filters -->
+            <div class="filter-container">
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <label class="filter-label">Lead Status</label>
+                        <select class="filter-select">
+                            <option value="all">All Statuses</option>
+                            <option value="new">New</option>
+                            <option value="contacted">Contacted</option>
+                            <option value="qualified">Qualified</option>
+                            <option value="unqualified">Unqualified</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Industry</label>
+                        <select class="filter-select">
+                            <option value="all">All Industries</option>
+                            <option value="technology">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="retail">Retail</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Lead Score</label>
+                        <select class="filter-select">
+                            <option value="all">All Scores</option>
+                            <option value="high">High (80-100)</option>
+                            <option value="medium">Medium (50-79)</option>
+                            <option value="low">Low (0-49)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Source</label>
+                        <select class="filter-select">
+                            <option value="all">All Sources</option>
+                            <option value="website">Website</option>
+                            <option value="referral">Referral</option>
+                            <option value="social">Social Media</option>
+                            <option value="event">Event</option>
+                            <option value="email">Email Campaign</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn btn-outline">Reset Filters</button>
+                    <button class="btn btn-primary">Apply Filters</button>
+                    <button class="btn btn-outline">Save Filter</button>
+                </div>
+            </div>
+            
+            <!-- Lead Table View -->
+            <div class="view-container table-view active">
+                <div class="table-container">
+                    <div class="table-header">
+                        <div class="table-title">All Leads (247)</div>
+                        <div class="table-actions">
+                            <div class="table-search">
+                                <input type="text" class="table-search-input" placeholder="Search leads...">
+                                <div class="table-search-icon">🔍</div>
+                            </div>
+                            <button class="btn btn-sm btn-outline">Export</button>
+                        </div>
+                    </div>
+                    
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th data-sort="name">Name</th>
+                                <th data-sort="company">Company</th>
+                                <th data-sort="email">Email</th>
+                                <th data-sort="phone">Phone</th>
+                                <th data-sort="status">Status</th>
+                                <th data-sort="score">Score</th>
+                                <th data-sort="source">Source</th>
+                                <th data-sort="lastContact">Last Contact</th>
+                                <th data-sort="actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td data-value="name">John Smith</td>
+                                <td data-value="company">Acme Corporation</td>
+                                <td data-value="email">john.smith@acme.com</td>
+                                <td data-value="phone">(555) 123-4567</td>
+                                <td data-value="status">Qualified</td>
+                                <td data-value="score" data-raw-value="85"><span class="score-badge high">85</span></td>
+                                <td data-value="source">Website</td>
+                                <td data-value="lastContact" data-raw-value="1">Yesterday</td>
+                                <td data-value="actions">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details">👁️</button>
+                                        <button class="action-btn" title="Edit">✏️</button>
+                                        <button class="action-btn" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-value="name">Sarah Johnson</td>
+                                <td data-value="company">TechGiant Solutions</td>
+                                <td data-value="email">sarah.j@techgiant.com</td>
+                                <td data-value="phone">(555) 987-6543</td>
+                                <td data-value="status">Qualified</td>
+                                <td data-value="score" data-raw-value="92"><span class="score-badge high">92</span></td>
+                                <td data-value="source">Referral</td>
+                                <td data-value="lastContact" data-raw-value="3">3 days ago</td>
+                                <td data-value="actions">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details">👁️</button>
+                                        <button class="action-btn" title="Edit">✏️</button>
+                                        <button class="action-btn" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-value="name">Michael Brown</td>
+                                <td data-value="company">Global Enterprises</td>
+                                <td data-value="email">m.brown@globalent.com</td>
+                                <td data-value="phone">(555) 456-7890</td>
+                                <td data-value="status">New</td>
+                                <td data-value="score" data-raw-value="78"><span class="score-badge medium">78</span></td>
+                                <td data-value="source">Social Media</td>
+                                <td data-value="lastContact" data-raw-value="7">1 week ago</td>
+                                <td data-value="actions">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details">👁️</button>
+                                        <button class="action-btn" title="Edit">✏️</button>
+                                        <button class="action-btn" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-value="name">Emily Davis</td>
+                                <td data-value="company">Innovative Solutions</td>
+                                <td data-value="email">emily.d@innovative.com</td>
+                                <td data-value="phone">(555) 789-0123</td>
+                                <td data-value="status">Contacted</td>
+                                <td data-value="score" data-raw-value="65"><span class="score-badge medium">65</span></td>
+                                <td data-value="source">Email Campaign</td>
+                                <td data-value="lastContact" data-raw-value="2">2 days ago</td>
+                                <td data-value="actions">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details">👁️</button>
+                                        <button class="action-btn" title="Edit">✏️</button>
+                                        <button class="action-btn" title="Delete">🗑️</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-value="name">Robert Wilson</td>
+                                <td data-value="company">Financial Partners</td>
+                                <td data-value="email">r.wilson@finpartners.com</td>
+                                <td data-value="phone">(555) 234-5678</td>
+                                <td data-value="status">Unqualified</td>
+                                <td data-value="score" data-raw-value="42"><span class="score-badge low">42</span></td>
+                                <td data-value="source">Website</td>
+                                <td data-value="lastContact" data-raw-value="14">2 weeks ago</td>
+                                <td data-value="actions">
+                                    <div class="action-buttons">
+                                        <button class="action-btn" title="View Details">👁️</button>
+                                        <button class="action-btn" title="E
+(Content truncated due to size limit. Use line ranges to read in chunks)

@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Commander - Lead Intelligence Center</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #90e0ef;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            grid-template-columns: 1fr;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            grid-row: 1;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-item {
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--gray-light);
+        }
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background-color: var(--gray-light);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .user-info {
+                display: block;
+            }
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            grid-row: 2;
+            display: grid;
+            grid-template-columns: 280px 1fr 350px;
+            overflow: hidden;
+        }
+
+        /* Filter Sidebar Styles */
+        .filter-sidebar {
+            background-color: var(--card-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .filter-group {
+            margin-bottom: 16px;
+        }
+
+        .filter-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .filter-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .filter-checkbox {
+            width: 16px;
+            height: 16px;
+        }
+
+        .filter-checkbox-label {
+            font-size: 14px;
+        }
+
+        .filter-range {
+            width: 100%;
+        }
+
+        .filter-range-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .filter-tag {
+            padding: 4px 12px;
+            border-radius: 16px;
+            background-color: var(--light);
+            border: 1px solid var(--gray-light);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .filter-tag:hover {
+            background-color: var(--gray-light);
+        }
+
+        .filter-tag.active {
+            background-color: var(--primary-light);
+            color: white;
+            border-color: var(--primary-light);
+        }
+
+        .filter-tag-remove {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 24px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        /* Lead Content Styles */
+        .lead-content {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .content-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .view-toggle {
+            display: flex;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 4px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .view-toggle-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: transparent;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .view-toggle-btn.active {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        .lead-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .lead-table-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .lead-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .lead-table th,
+        .lead-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lead-table th {
+            background-color: var(--light);
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .lead-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .lead-table tr:hover {
+            background-color: var(--light);
+        }
+
+        .lead-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .lead-company {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .lead-score {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .lead-score.high {
+            background-color: #10b981;
+        }
+
+        .lead-score.medium {
+            background-color: var(--warning);
+        }
+
+        .lead-score.low {
+            background-color: var(--danger);
+        }
+
+        .lead-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .status-new {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .status-contacted {
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+        }
+
+        .status-qualified {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .status-proposal {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status-negotiation {
+            background-color: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+        }
+
+        .lead-source {
+            font-size: 14px;
+        }
+
+        .lead-date {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .lead-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 24px;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .page-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light);
+            border: 1px solid var(--gray-light);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .page-btn:hover {
+            background-color: var(--gray-light);
+        }
+
+        .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Heatmap View Styles */
+        .heatmap-view {
+            display: none;
+            margin-top: 24px;
+        }
+
+        .heatmap-container {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .heatmap-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .heatmap-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .heatmap-legend {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .legend-low {
+            background-color: #cfe8fc;
+        }
+
+        .legend-medium {
+            background-color: #4895ef;
+        }
+
+        .legend-high {
+            background-color: #3f37c9;
+        }
+
+        .heatmap-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .heatmap-row-label {
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .heatmap-cell {
+            aspect-ratio: 1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .heatmap-cell:hover {
+            transform: scale(1.05);
+            box-shadow: var(--shadow);
+        }
+
+        .heat-none {
+            background-color: var(--light);
+            color: var(--text-muted);
+            border: 1px dashed var(--gray-light);
+        }
+
+        .heat-low {
+            background-color: #cfe8fc;
+            color: var(--dark);
+        }
+
+        .heat-medium {
+            background-color: #4895ef;
+        }
+
+        .heat-high {
+            background-color: #3f37c9;
+        }
+
+        /* Detail Panel Styles */
+        .detail-panel {
+            background-color: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+        }
+
+        .detail-title-section {
+            flex: 1;
+        }
+
+        .detail-company {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .detail-contact {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .detail-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .detail-tag {
+            padding: 4px 12px;
+            border-radius: 16px;
+            background-color: var(--light);
+            font-size: 12px;
+        }
+
+        .detail-score {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background-color: #10b981;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 24px;
+            margin-left: 16px;
+        }
+
+        .detail-section {
+            margin-bottom: 24px;
+        }
+
+        .detail-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .detail-info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .detail-info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .detail-info-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .detail-info-value {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .activity-timeline {
+            position: relative;
+        }
+
+        .timeline-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 16px;
+            width: 2px;
+            background-color: var(--gray-light);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .timeline-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light);
+            border: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 12px;
+        }
+
+        .timeline-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .timeline-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .timeline-description {
+            font-size: 14px;
+        }
+
+        .insight-card {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .insight-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .insight-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .insight-content {
+            font-size: 14px;
+        }
+
+        .detail-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .action-icon {
+            font-size: 16px;
+        }
+
+        /* Upload Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--gray-dark);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-light);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+        }
+
+        .file-icon {
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Schema Mapping Styles */
+        .schema-mapping {
+            margin-top: 20px;
+        }
+
+        .mapping-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .mapping-source {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .mapping-arrow {
+            color: var(--gray);
+        }
+
+        .mapping-target {
+            flex: 1;
+        }
+
+        .mapping-select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+        }
+
+        /* Progress Indicator Styles */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--gray-light);
+            z-index: 0;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light);
+            border: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .progress-step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .progress-step.active .step-label {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .progress-step.completed .step-number {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 240px 1fr;
+            }
+
+            .detail-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-sidebar {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .lead-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+
+            .lead-table th:nth-child(3),
+            .lead-table td:nth-child(3),
+            .lead-table th:nth-child(5),
+            .lead-table td:nth-child(5) {
+                display: none;
+            }
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            --body-bg: #121212;
+            --card-bg: #1e1e2c;
+            --text-main: #e9ecef;
+            --text-muted: #adb5bd;
+            --border-color: #2d2d3a;
+            --gray-light: #2d2d3a;
+            --light: #2d2d3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                <span>Lead Commander</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item active">Leads</a>
+                <a href="#" class="nav-item">Pipeline</a>
+                <a href="#" class="nav-item">Market</a>
+                <a href="#" class="nav-item">Team</a>
+                <a href="#" class="nav-item">Automation</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search leads, tasks, insights...">
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <button class="icon-btn">⚙️</button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Sales Director</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Filter Sidebar -->
+            <div class="filter-sidebar">
+                <div class="sidebar-section">
+                    <h2 class="sidebar-title">Filters</h2>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Lead Source</label>
+                        <select class="filter-select">
+                            <option value="">All Sources</option>
+                            <option value="website">Website</option>
+                            <option value="referral">Referral</option>
+                            <option value="campaign">Campaign</option>
+                            <option value="social">Social Media</option>
+                            <option value="event">Event</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Funnel Stage</label>
+                        <div class="filter-checkbox-group">
+                            <div class="filter-checkbox-item">
+                                <input type="checkbox" id="stage-new" class="filter-checkbox" checked>
+                                <label for="stage-new" class="filter-checkbox-label">New</label>
+                            </div>
+                            <div class="filter-checkbox-item">
+                                <input type="checkbox" id="stage-contacted" class="filter-checkbox" checked>
+                                <label for="stage-contacted" class="filter-checkbox-label">Contacted</label>
+                            </div>
+                            <div class="filter-checkbox-item">
+                                <input type="checkbox" id="stage-qualified" class="filter-checkbox" checked>
+                                <label for="stage-qualified" class="filter-checkbox-label">Qualified</label>
+                            </div>
+                            <div class="filter-checkbox-item">
+                                <input type="checkbox" id="stage-proposal" class="filter-checkbox" checked>
+                                <label for="stage-proposal" class="filter-checkbox-label">Proposal</label>
+                            </div>
+                            <div class="filter-checkbox-item">
+                                <input type="checkbox" id="stage-negotiation" class="filter-checkbox" checked>
+                                <label for="stage-negotiation" class="filter-checkbox-label">Negotiation</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Lead Score</label>
+                        <input type="range" min="0" max="100" value="50" class="filter-range">
+                        <div class="filter-range-values">
+                            <span>0</span>
+                            <span>100</span>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Industry</label>
+                        <select class="filter-select">
+                            <option value="">All Industries</option>
+                            <option value="tech">Technology</option>
+                            <option value="finance">Finance</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="education">Education</option>
+                            <option value="manufacturing">Manufacturing</option>
+                            <option value="retail">Retail</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label class="filter-label">Date Added</label>
+                        <select class="filter-select">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                            <option value="year">This Year</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h2 class="sidebar-title">Tags</h2>
+                    <div class="filter-tags">
+                        <div class="filter-tag active">
+                            High Intent
+                            <span class="filter-tag-remove">×</span>
+                        </div>
+                        <div class="filter-tag">
+                            Enterprise
+                            <span class="filter-tag-remove">×</span>
+                        </div>
+                        <div class="filter-tag">
+                            Nurturing
+                            <span class="filter-tag-remove">×</span>
+                        </div>
+                        <div class="filter-tag">
+                            Hot Lead
+                            <span class="filter-tag-remove">×</span>
+                        </div>
+                        <div class="filter-tag">
+                            New Market
+                            <span class="filter-tag-remove">×</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filter-actions">
+                    <button class="btn btn-outline btn-block">Reset Filters</button>
+                    <button class="btn btn-primary btn-block">Apply Filters</button>
+                </div>
+            </div>
+            
+            <!-- Lead Content -->
+            <div class="lead-content">
+                <div class="content-header">
+                    <h1 class="page-title">Lead Intelligence Center</h1>
+                    
+                    <div class="content-actions">
+                        <div class="view-toggle">
+                            <button class="view-toggle-btn active">Table</button>
+                            <button class="view-toggle-btn">Heatmap</button>
+                        </div>
+                        
+                        <button class="btn btn-outline">Export</button>
+                        <button class="btn btn-primary" onclick="showUploadModal()">Upload Leads</button>
+                    </div>
+                </div>
+                
+                <div class="lead-stats">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Leads</div>
+                        <div class="stat-value">247</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-title">High-Value Leads</div>
+                        <div class="stat-value">86</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-title">Avg. Lead Score</div>
+                        <div class="stat-value">72</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-title">New This Week</div>
+                        <div class="stat-value">34</div>
+                    </div>
+                </div>
+                
+                <div class="lead-table-container">
+                    <table class="lead-table">
+                        <thead>
+                            <tr>
+                                <th>Lead</th>
+                                <th>Score</th>
+                                <th>Status</th>
+                                <th>Source</th>
+                                <th>Date Added</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="lead-name">Acme Corporation</div>
+                                    <div class="lead-company">Sarah Johnson • CEO</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score high">92</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-qualified">Qualified</span>
+                                </td>
+                                <td class="lead-source">Website</td>
+                                <td class="lead-date">Apr 15, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="lead-name">TechGiant Solutions</div>
+                                    <div class="lead-company">Michael Chen • CTO</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score high">87</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-proposal">Proposal</span>
+                                </td>
+                                <td class="lead-source">Referral</td>
+                                <td class="lead-date">Apr 12, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="lead-name">Global Innovations Inc.</div>
+                                    <div class="lead-company">David Wilson • COO</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score medium">76</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-contacted">Contacted</span>
+                                </td>
+                                <td class="lead-source">Campaign</td>
+                                <td class="lead-date">Apr 10, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="lead-name">Quantum Dynamics</div>
+                                    <div class="lead-company">Emily Rodriguez • Director</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score medium">68</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-new">New</span>
+                                </td>
+                                <td class="lead-source">Event</td>
+                                <td class="lead-date">Apr 8, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="lead-name">Stellar Enterprises</div>
+                                    <div class="lead-company">Robert Kim • President</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score low">54</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-contacted">Contacted</span>
+                                </td>
+                                <td class="lead-source">Social Media</td>
+                                <td class="lead-date">Apr 5, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="lead-name">Horizon Financial</div>
+                                    <div class="lead-company">Jennifer Lee • CFO</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score high">89</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-negotiation">Negotiation</span>
+                                </td>
+                                <td class="lead-source">Website</td>
+                                <td class="lead-date">Apr 3, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="lead-name">Pinnacle Systems</div>
+                                    <div class="lead-company">Thomas Brown • VP Sales</div>
+                                </td>
+                                <td>
+                                    <div class="lead-score medium">72</div>
+                                </td>
+                                <td>
+                                    <span class="lead-status status-qualified">Qualified</span>
+                                </td>
+                                <td class="lead-source">Referral</td>
+                                <td class="lead-date">Apr 1, 2025</td>
+                                <td>
+                                    <div class="lead-actions">
+                                        <button class="btn btn-sm btn-outline">View</button>
+                                        <button class="btn btn-sm btn-primary">Contact</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <div class="pagination-info">
+                        Showing 1-7 of 247 leads
+                    </div>
+                    
+                    <div class="pagination-controls">
+                        <button class="page-btn">←</button>
+                        <button class="page-btn active">1</button>
+                        <button class="page-btn">2</button>
+                        <button class="page-btn">3</button>
+                        <button class="page-btn">4</button>
+                        <button class="page-btn">5</button>
+                        <button class="page-btn">→</button>
+                    </div>
+                </div>
+                
+                <!-- Heatmap View (Hidden by default) -->
+                <div class="heatmap-view">
+                    <div class="heatmap-container">
+                        <div class="heatmap-header">
+                            <h2 class="heatmap-title">Lead Performance by Channel & Industry</h2>
+                            
+                            <div class="heatmap-legend">
+                                <div class="legend-item">
+                                    <div class="legend-color legend-low"></div>
+                                    <span>Low (1-10)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color legend-medium"></div>
+                                    <span>Medium (11-30)</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-color legend-high"></div>
+                                    <span>High (31+)</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="heatmap-grid">
+                            <div class="heatmap-row-label"></div>
+                            <div class="heatmap-row-label">Website</div>
+                            <div class="heatmap-row-label">Referral</div>
+                            <div class="heatmap-row-label">Campaign</div>
+                            <div class="heatmap-row-label">Social</div>
+                            <div class="heatmap-row-label">Event</div>
+                            <div class="heatmap-row-label">Email</div>
+                            
+                            <div class="heatmap-row-label">Technology</div>
+                            <div class="heatmap-cell heat-high">42</div>
+                            <div class="heatmap-cell heat-medium">28</div>
+                            <div class="heatmap-cell heat-medium">19</div>
+                            <div class="heatmap-cell heat-low">8</div>
+                            <div class="heatmap-cell heat-medium">15</div>
+                            <div class="heatmap-cell heat-low">6</div>
+                            
+                            <div class="heatmap-row-label">Finance</div>
+                            <div class="heatmap-cell heat-medium">23</div>
+                            <div class="heatmap-cell heat-high">31</div>
+                            <div class="heatmap-cell heat-low">7</div>
+                            <div class="heatmap-cell heat-low">3</div>
+                            <div class="heatmap-cell heat-medium">12</div>
+                            <div class="heatmap-cell heat-low">5</div>
+                            
+                            <div class="heatmap-row-label">Healthcare</div>
+                            <div class="heatmap-cell heat-medium">18</div>
+                            <div class="heatmap-cell heat-medium">14</div>
+                            <div class="heatmap-cell heat-low">9</div>
+                            <div class="heatmap-cell heat-none">0</div>
+                            <div class="heatmap-cell heat-low">7</div>
+                            <div class="heatmap-cell heat-low">4</div>
+                            
+                            <div class="heatmap-row-label">Education</div>
+                            <div class="heatmap-cell heat-low">10</div>
+                            <div class="heatmap-cell heat-low">6</div>
+                            <div class="heatmap-cell heat-medium">12</div>
+                            <div class="heatmap-cell heat-low">5</div>
+                            <div class="heatmap-cell heat-low">8</div>
+                            <div class="heatmap-cell heat-none">0</div>
+                            
+                            <div class="heatmap-row-label">Manufacturing</div>
+                            <div class="heatmap-cell heat-medium">16</div>
+                            <div class="heatmap-cell heat-medium">11</div>
+                            <div class="heatmap-cell heat-high">34</div>
+                            <div class="heatmap-cell heat-low">2</div>
+                            <div class="heatmap-cell heat-medium">21</div>
+                            <div class="heatmap-cell heat-low">7</div>
+                            
+                            <div class="heatmap-row-label">Retail</div>
+                            <div class="heatmap-cell heat-medium">14</div>
+                            <div class="heatmap-cell heat-low">8</div>
+                            <div class="heatmap-cell heat-medium">17</div>
+                            <div class="heatmap-cell heat-medium">13</div>
+                            <div class="heatmap-cell heat-low">6</div>
+                            <div class="heatmap-cell heat-low">3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Detail Panel -->
+            <div class="detail-panel">
+                <div class="detail-header">
+                    <div class="detail-title-section">
+                        <h2 class="detail-company">Acme Corporation</h2>
+                        <div class="detail-contact">Sarah Johnson • CEO</div>
+                        <div class="detail-tags">
+                            <div class="detail-tag">Technology</div>
+                            <div class="detail-tag">Enterprise</div>
+                            <div class="detail-tag">High Intent</div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-score">92</div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Lead Information</h3>
+                    
+                    <div class="detail-info-grid">
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Email</div>
+                            <div class="detail-info-value">sarah.johnson@acmecorp.com</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Phone</div>
+                            <div class="detail-info-value">(555) 123-4567</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Company Size</div>
+                            <div class="detail-info-value">500-1000 employees</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Annual Revenue</div>
+                            <div class="detail-info-value">$50M - $100M</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Location</div>
+                            <div class="detail-info-value">San Francisco, CA</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Lead Source</div>
+                            <div class="detail-info-value">Website</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Status</div>
+                            <div class="detail-info-value">Qualified</div>
+                        </div>
+                        
+                        <div class="detail-info-item">
+                            <div class="detail-info-label">Date Added</div>
+                            <div class="detail-info-value">Apr 15, 2025</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-section-title">
+                        AI Insights
+                        <button class="btn btn-sm btn-outline">Regenerate</button>
+                    </h3>
+                    
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon">💡</div>
+                            <div class="insight-title">High Intent Signals</div>
+                            <div class="insight-time">10m ago</div>
+                        </div>
+                        <div class="insight-content">
+                            Acme Corporation has viewed your pricing page 5 times in the last 24 hours and downloaded your enterprise case study. Their engagement pattern suggests they're in an active buying cycle.
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon">🔍</div>
+                            <div class="insight-title">Competitive Analysis</div>
+                            <div class="insight-time">1h ago</div>
+                        </div>
+                        <div class="insight-content">
+                            Based on their recent product launches, Acme is likely evaluating solutions to improve their customer data integration. Your platform's API capabilities would be a key differentiator against competitors they're considering.
+                        </div>
+                    </div>
+                    
+                    <div class="insight-card">
+                        <div class="insight-header">
+                            <div class="insight-icon">📊</div>
+                            <div class="insight-title">Conversion Prediction</div>
+                            <div class="insight-time">3h ago</div>
+                        </div>
+                        <div class="insight-content">
+                            Based on historical data from similar leads, Acme has an 85% likelihood of converting within 45 days if you schedule a demo this week. Their engagement pattern closely matches your most successful enterprise deals.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Activity Timeline</h3>
+                    
+                    <div class="activity-timeline">
+                        <div class="timeline-line"></div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-icon">📱</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Call Scheduled</div>
+                                <div class="timeline-time">Today, 10:30 AM</div>
+                                <div class="timeline-description">
+                                    Initial discovery call scheduled with Sarah Johnson.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-icon">📄</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Downloaded Case Study</div>
+                                <div class="timeline-time">Yesterday, 3:45 PM</div>
+                                <div class="timeline-description">
+                                    Downloaded "Enterprise Data Integration" case study.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-icon">🌐</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Visited Pricing Page</div>
+                                <div class="timeline-time">Yesterday, 2:15 PM</div>
+                                <div class="timeline-description">
+                                    Viewed Enterprise pricing tier for 8 minutes.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-icon">✉️</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Email Opened</div>
+                                <div class="timeline-time">Apr 16, 2025, 9:20 AM</div>
+                                <div class="timeline-description">
+                                    Opened "Enterprise Solutions Overview" email.
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="timeline-item">
+                            <div class="timeline-icon">📝</div>
+                            <div class="timeline-content">
+                                <div class="timeline-title">Form Submission</div>
+                                <div class="timeline-time">Apr 15, 2025, 11:30 AM</div>
+                                <div class="timeline-description">
+                                    Submitted contact form requesting information about API capabilities.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="detail-section-title">Actions</h3>
+                    
+                    <div class="detail-actions">
+                        <button class="btn btn-primary action-btn">
+                            <span class="action-icon">📱</span>
+                            Schedule Call
+                        </button>
+                        
+                        <button class="btn btn-outline action-btn">
+                            <span class="action-icon">✉️</span>
+                            Send Email
+                        </button>
+                        
+                        <button class="btn btn-outline action-btn">
+                            <span class="action-icon">📄</span>
+                            Create Task
+                        </button>
+                        
+                        <button class="btn btn-outline action-btn">
+                            <span class="action-icon">🏷️</span>
+                            Add Tags
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Modal (Hidden by default) -->
+        <div class="modal-overlay" style="display: none;">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Upload Lead List</h3>
+                    <button class="close-btn" onclick="hideUploadModal()">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="progress-steps">
+                        <div class="progress-step active">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Upload</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Map Fields</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Process</div>
+                        </div>
+                        <div class="progress-step">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Complete</div>
+                        </div>
+                    </div>
+                    
+                    <div class="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Drag & drop files here</div>
+                        <div class="upload-hint">Supports CSV, Excel, and CRM exports</div>
+                    </div>
+                    
+                    <div class="file-list">
+                        <div class="file-item">
+                            <div class="file-icon">📊</div>
+                            <div class="file-info">
+                                <div class="file-name">q2_leads.csv</div>
+                                <div class="file-size">245 KB • 128 leads</div>
+                            </div>
+                            <div class="file-actions">
+                                <button class="btn btn-sm btn-outline">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Schema Mapping (Hidden initially) -->
+                    <div class="schema-mapping" style="display: none;">
+                        <h4 style="margin-bottom: 16px;">Map Your Fields to Our System</h4>
+                        
+                        <div class="mapping-row">
+                            <div class="mapping-source">First Name</div>
+                            <div class="mapping-arrow">→</div>
+                            <div class="mapping-target">
+                                <select class="mapping-select">
+                                    <option value="first_name">First Name</option>
+                                    <option value="last_name">Last Name</option>
+                                    <option value="email">Email</option>
+                                    <option value="company">Company</option>
+                                    <option value="title">Job Title</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mapping-row">
+                            <div class="mapping-source">Last Name</div>
+                            <div class="mapping-arrow">→</div>
+                            <div class="mapping-target">
+                                <select class="mapping-select">
+                                    <option value="first_name">First Name</option>
+                                    <option selected value="last_name">Last Name</option>
+                                    <option value="email">Email</option>
+                                    <option value="company">Company</option>
+                                    <option value="title">Job Title</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mapping-row">
+                            <div class="mapping-source">Email Address</div>
+                            <div class="mapping-arrow">→</div>
+                            <div class="mapping-target">
+                                <select class="mapping-select">
+                                    <option value="first_name">First Name</option>
+                                    <option value="last_name">Last Name</option>
+                                    <option selected value="email">Email</option>
+                                    <option value="company">Company</option>
+                                    <option value="title">Job Title</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mapping-row">
+                            <div class="mapping-source">Organization</div>
+                            <div class="mapping-arrow">→</div>
+                            <div class="mapping-target">
+                                <select class="mapping-select">
+                                    <option value="first_name">First Name</option>
+                                    <option value="last_name">Last Name</option>
+                                    <option value="email">Email</option>
+                                    <option selected value="company">Company</option>
+                                    <option value="title">Job Title</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mapping-row">
+                            <div class="mapping-source">Position</div>
+                            <div class="mapping-arrow">→</div>
+                            <div class="mapping-target">
+                                <select class="mapping-select">
+                                    <option value="first_name">First Name</option>
+                                    <option value="last_name">Last Name</option>
+                                    <option value="email">Email</option>
+                                    <option value="company">Company</option>
+                                    <option selected value="title">Job Title</option>
+                                    <option value="phone">Phone</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-outline" onclick="hideUploadModal()">Cancel</button>
+                    <button class="btn btn-primary">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Toggle between table and heatmap views
+        document.querySelectorAll('.view-toggle-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                document.querySelectorAll('.view-toggle-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                if (this.textContent === 'Table') {
+                    document.querySelector('.lead-table-container').style.display = 'block';
+                    document.querySelector('.heatmap-view').style.display = 'none';
+                } else {
+                    document.querySelector('.lead-table-container').style.display = 'none';
+                    document.querySelector('.heatmap-view').style.display = 'block';
+                }
+            });
+        });
+        
+        // Show upload modal
+        function showUploadModal() {
+            document.querySelector('.modal-overlay').style.display = 'flex';
+        }
+        
+        // Hide upload modal
+        function hideUploadModal() {
+            document.querySelector('.modal-overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Commander - Market Signal Scanner</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #90e0ef;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            grid-template-columns: 1fr;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            grid-row: 1;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-item {
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--gray-light);
+        }
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background-color: var(--gray-light);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .user-info {
+                display: block;
+            }
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            grid-row: 2;
+            padding: 24px;
+            overflow-y: auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 700;
+            grid-column: 1 / -1;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        /* News Feed Styles */
+        .news-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .section-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .news-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .news-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .news-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .news-source {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .source-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .news-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .news-impact {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .impact-high {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+
+        .impact-medium {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .impact-low {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .news-bookmark {
+            background-color: transparent;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .news-bookmark:hover {
+            color: var(--primary);
+        }
+
+        .news-bookmark.active {
+            color: var(--primary);
+        }
+
+        .news-body {
+            padding: 20px;
+        }
+
+        .news-content {
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .news-related {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
+
+        .related-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .related-leads {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .related-lead {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            font-size: 13px;
+        }
+
+        .lead-score {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .lead-score.high {
+            background-color: #10b981;
+        }
+
+        .lead-score.medium {
+            background-color: var(--warning);
+        }
+
+        .lead-score.low {
+            background-color: var(--danger);
+        }
+
+        .news-footer {
+            padding: 12px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .news-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .news-action:hover {
+            color: var(--primary);
+        }
+
+        .news-action-icon {
+            font-size: 16px;
+        }
+
+        .news-share {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Sidebar Styles */
+        .market-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .trend-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+
+        .trend-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .trend-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .trend-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .trend-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .trend-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .trend-content {
+            flex: 1;
+        }
+
+        .trend-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .trend-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .trend-change {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .sentiment-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+
+        .sentiment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .sentiment-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .sentiment-chart {
+            height: 200px;
+            margin-bottom: 16px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+        }
+
+        .sentiment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .sentiment-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sentiment-company {
+            font-weight: 500;
+        }
+
+        .sentiment-score {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .score-bar {
+            width: 100px;
+            height: 6px;
+            background-color: var(--gray-light);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .score-value {
+            height: 100%;
+            border-radius: 3px;
+        }
+
+        .score-positive {
+            background-color: #10b981;
+        }
+
+        .score-neutral {
+            background-color: var(--gray);
+        }
+
+        .score-negative {
+            background-color: var(--danger);
+        }
+
+        .score-number {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .warning-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+        }
+
+        .warning-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .warning-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .warning-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .warning-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .warning-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .warning-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .warning-content {
+            flex: 1;
+        }
+
+        .warning-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .warning-description {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .warning-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .warning-time {
+            color: var(--text-muted);
+        }
+
+        .warning-severity {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .severity-high {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+
+        .severity-medium {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .severity-low {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .nav {
+                display: none;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            --body-bg: #121212;
+            --card-bg: #1e1e2c;
+            --text-main: #e9ecef;
+            --text-muted: #adb5bd;
+            --border-color: #2d2d3a;
+            --gray-light: #2d2d3a;
+            --light: #2d2d3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                <span>Lead Commander</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item">Leads</a>
+                <a href="#" class="nav-item">Pipeline</a>
+                <a href="#" class="nav-item active">Market</a>
+                <a href="#" class="nav-item">Team</a>
+                <a href="#" class="nav-item">Automation</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search market news, trends...">
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <button class="icon-btn">⚙️</button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Sales Director</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <h1 class="page-title">Market Signal Scanner</h1>
+            
+            <!-- News Feed -->
+            <div class="news-feed">
+                <div class="section-header">
+                    <h2 class="section-title">GPT-Curated News</h2>
+                    
+                    <div class="section-actions">
+                        <button class="btn btn-sm btn-outline">Filter</button>
+                        <button class="btn btn-sm btn-outline">Sort</button>
+                        <button class="btn btn-sm btn-primary">Refresh</button>
+                    </div>
+                </div>
+                
+                <!-- News Card 1 -->
+                <div class="news-card">
+                    <div class="news-header">
+                        <div>
+                            <h3 class="news-title">TechGiant Solutions Announces New Enterprise Data Platform</h3>
+                            <div class="news-meta">
+                                <div class="news-source">
+                                    <span class="source-icon">TN</span>
+                                    <span>Tech News</span>
+                                </div>
+                                <div class="news-date">
+                                    <span>📅</span>
+                                    <span>Apr 18, 2025</span>
+                                </div>
+                                <div class="news-impact impact-high">High Impact</div>
+                            </div>
+                        </div>
+                        <button class="news-bookmark active">🔖</button>
+                    </div>
+                    
+                    <div class="news-body">
+                        <div class="news-content">
+                            TechGiant Solutions announced today the launch of their new Enterprise Data Integration Platform, aimed at large organizations looking to streamline their data operations. The platform offers advanced AI capabilities for data processing and analytics, positioning TechGiant as a direct competitor in your market space. This move could potentially impact ongoing negotiations with several of your high-value leads who are currently evaluating similar solutions.
+                        </div>
+                        
+                        <div class="news-related">
+                            <div class="related-title">Related Leads in Your Pipeline</div>
+                            <div class="related-leads">
+                                <div class="related-lead">
+                                    <div class="lead-score high">87</div>
+                                    <span>TechGiant Solutions</span>
+                                </div>
+                                <div class="related-lead">
+                                    <div class="lead-score high">92</div>
+                                    <span>Acme Corporation</span>
+                                </div>
+                                <div class="related-lead">
+                                    <div class="lead-score medium">76</div>
+                                    <span>Global Innovations Inc.</span>
+                                </div>
+                                <div class="related-lead">
+                                    <div class="lead-score medium">68</div>
+                                    <span>Quantum Dynamics</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-footer">
+                        <div class="news-actions">
+                            <div class="news-action">
+                                <span class="news-action-icon">👍</span>
+                                <span>Relevant</span>
+                            </div>
+                            <div class="news-action">
+                                <span class="news-action-icon">👎</span>
+                                <span>Not Relevant</span>
+                            </div>
+                            <div class="news-action">
+                                <span class="news-action-icon">💬</span>
+                                <span>Comment</span>
+                            </div>
+                        </div>
+                        
+                        <div class="news-share">
+                            <button class="btn btn-sm btn-outline">Share</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- News Card 2 -->
+                <div class="news-card">
+                    <div class="news-header">
+                        <div>
+                            <h3 class="news-title">Manufacturing Sector Shows 15% Growth in Technology Adoption</h3>
+                            <div class="news-meta">
+                                <div class="news-source">
+                                    <span class="source-icon">IR</span>
+                                    <span>Industry Report</span>
+                                </div>
+                                <div class="news-date">
+                                    <span>📅</span>
+                                    <span>Apr 16, 2025</span>
+                                </div>
+                                <div class="news-impact impact-medium">Medium Impact</div>
+                            </div>
+                        </div>
+                        <button class="news-bookmark">🔖</button>
+                    </div>
+                    
+                    <div class="news-body">
+                        <div class="news-content">
+                            A recent industry report indicates that the manufacturing sector has increased technology adoption by 15% in the past quarter, with a particular focus on data integration and automation solutions. This trend represents a significant opportunity for expansion in this vertical. Several manufacturing companies in your pipeline may be more receptive to proposals given this industry-wide shift toward digital transformation.
+                        </div>
+                        
+                        <div class="news-related">
+                            <div class="related-title">Related Leads in Your Pipeline</div>
+                            <div class="related-leads">
+                                <div class="related-lead">
+                                    <div class="lead-score medium">76</div>
+                                    <span>Global Innovations Inc.</span>
+                                </div>
+                                <div class="related-lead">
+                                    <div class="lead-score low">54</div>
+                                    <span>Stellar Enterprises</span>
+                                </div>
+                                <div class="related-lead">
+                                    <div class="lead-score medium">72</div>
+                                    <span>Pinnacle Systems</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-footer">
+                        <div class="news-actions">
+                            <div class="news-action">
+                                <span class="news-action-icon">👍</span>
+                                <span>Relevant</span>
+                            </div>
+                            <div class="news-action">
+                                <span class="news-action-icon">👎</span>
+                                <span>Not Relevant</span>
+                            </div>
+                            <div class="news-action">
+                                <span class="news-action-icon">💬</span>
+                                <span>Comment</span>
+                            </div>
+                        </div>
+                        
+                        <div class="news-share">
+                            <button class="btn btn-sm btn-outline">Share</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- News Card 3 -->
+                <div class="news-card">
+                    <div class="news-header">
+                        <div>
+                            <h3 class="news-title">Horizon Financial Appoints New CTO with Focus on Digital Transformation</h3>
+                            <div class="news-meta">
+                                <div class="news-source">
+                                    <span class="source-icon">FB</span>
+                                    <span>Finance Bulletin</span>
+                                </div>
+                                <div class="news-date">
+                                    <span>📅</span>
+                                    <span>Apr 15, 2025</span>
+                                </div>
+                                <div class="news-impact impact-medium">Medium Impact</div>
+                            </div>
+                        </div>
+                        <button class="news-bookmark">🔖</button>
+                    </div>
+                    
+                    <div class="news-body">
+                        <div class="news-content">
+                            Horizon Financial, a high-value lead in your pipeline, has appointed Dr. Michael Chen as their new Chief Technology Officer. Dr. Chen has a strong background in digital transformation and has previously led major technology initiatives at several Fortune 500 companies. This appointment signals Horizon's commitment to modernizing their technology infrastructure, potentially accelerating their buying timeline for solutions like yours.
+                        </div>
+                        
+                        <div class="news-related">
+                            <div class="related-title">Related Leads in Your Pipeline</div>
+                            <div class="related-leads">
+                                <div class="related-lead">
+                                    <div class="lead-score high">89</div>
+                                    <span>Horizon Financial</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="news-footer">
+                        <div class="news-actions">
+                            <div class="news-action">
+                                <span class="news-action-icon">👍</span>
+                                <span>Relevant</span>
+                            </div>
+                            <div class="news-action">
+                                <span class="news-action-icon">👎</span>
+                                <span>Not Relevant</span>
+                            </div>
+                            <div class="news-action">
+                                <span class="news-action-icon">💬</span>
+                                <span>Comment</span>
+                            </div>
+                        </div>
+                        
+                        <div class="news-share">
+                            <button class="btn btn-sm btn-outline">Share</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Sidebar -->
+            <div class="market-sidebar">
+                <!-- Industry Trends -->
+                <div class="trend-card">
+                    <div class="trend-header">
+                        <h3 class="trend-title">Industry Trends</h3>
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                    
+                    <div class="trend-list">
+                        <div class="trend-item">
+                            <div class="trend-icon">📈</div>
+                            <div class="trend-content">
+                                <div class="trend-name">SaaS Adoption in Manufacturing</div>
+                                <div class="trend-meta">
+                                    <span>Last 30 days</span>
+                                    <div class="trend-change trend-up">
+                                        <span>↑</span>
+                                        <span>15%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="trend-item">
+                            <div class="trend-icon">📈</div>
+                            <div class="trend-content">
+                                <div class="trend-name">AI Integration in Financial Services</div>
+                                <div class="trend-meta">
+                                    <span>Last 30 days</span>
+                                    <div class="trend-change trend-up">
+                                        <span>↑</span>
+                                        <span>23%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="trend-item">
+                            <div class="trend-icon">📉</div>
+                            <div class="trend-content">
+                                <div class="trend-name">On-Premise Solutions</div>
+                                <div class="trend-meta">
+                                    <span>Last 30 days</span>
+                                    <div class="trend-change trend-down">
+                                        <span>↓</span>
+                                        <span>8%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="trend-item">
+                            <div class="trend-icon">📈</div>
+                            <div class="trend-content">
+                                <div class="trend-name">Data Security Spending</div>
+                                <div class="trend-meta">
+                                    <span>Last 30 days</span>
+                                    <div class="trend-change trend-up">
+                                        <span>↑</span>
+                                        <span>19%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Sentiment -->
+                <div class="sentiment-card">
+                    <div class="sentiment-header">
+                        <h3 class="sentiment-title">Social Sentiment</h3>
+                        <button class="btn btn-sm btn-outline">Details</button>
+                    </div>
+                    
+                    <div class="sentiment-chart">
+                        [Social Sentiment Chart - Visualization of sentiment trends over time]
+                    </div>
+                    
+                    <div class="sentiment-list">
+                        <div class="sentiment-item">
+                            <div class="sentiment-company">TechGiant Solutions</div>
+                            <div class="sentiment-score">
+                                <div class="score-bar">
+                                    <div class="score-value score-positive" style="width: 85%;"></div>
+                                </div>
+                                <div class="score-number">85</div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentiment-item">
+                            <div class="sentiment-company">Acme Corporation</div>
+                            <div class="sentiment-score">
+                                <div class="score-bar">
+                                    <div class="score-value score-positive" style="width: 78%;"></div>
+                                </div>
+                                <div class="score-number">78</div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentiment-item">
+                            <div class="sentiment-company">Global Innovations</div>
+                            <div class="sentiment-score">
+                                <div class="score-bar">
+                                    <div class="score-value score-neutral" style="width: 52%;"></div>
+                                </div>
+                                <div class="score-number">52</div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentiment-item">
+                            <div class="sentiment-company">Horizon Financial</div>
+                            <div class="sentiment-score">
+                                <div class="score-bar">
+                                    <div class="score-value score-positive" style="width: 72%;"></div>
+                                </div>
+                                <div class="score-number">72</div>
+                            </div>
+                        </div>
+                        
+                        <div class="sentiment-item">
+                            <div class="sentiment-company">Stellar Enterprises</div>
+                            <div class="sentiment-score">
+                                <div class="score-bar">
+                                    <div class="score-value score-negative" style="width: 35%;"></div>
+                                </div>
+                                <div class="score-number">35</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Early Warning System -->
+                <div class="warning-card">
+                    <div class="warning-header">
+                        <h3 class="warning-title">Early Warning System</h3>
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                    
+                    <div class="warning-list">
+                        <div class="warning-item">
+                            <div class="warning-icon">⚠️</div>
+                            <div class="warning-content">
+                                <div class="warning-name">Competitor Product Launch</div>
+                                <div class="warning-description">
+                                    TechGiant's new platform launch may impact 4 deals in your pipeline worth $645K.
+                                </div>
+                                <div class="warning-meta">
+                                    <div class="warning-time">2 days ago</div>
+                                    <div class="warning-severity severity-high">High</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-item">
+                            <div class="warning-icon">⚠️</div>
+                            <div class="warning-content">
+                                <div class="warning-name">Budget Freeze</div>
+                                <div class="warning-description">
+                                    Potential IT budget freeze in financial sector due to regulatory changes.
+                                </div>
+                                <div class="warning-meta">
+                                    <div class="warning-time">5 days ago</div>
+                                    <div class="warning-severity severity-medium">Medium</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="warning-item">
+                            <div class="warning-icon">⚠️</div>
+                            <div class="warning-content">
+                                <div class="warning-name">Leadership Change</div>
+                                <div class="warning-description">
+                                    Stellar Enterprises CEO stepping down, potential strategy shift.
+                                </div>
+                                <div class="warning-meta">
+                                    <div class="warning-time">1 week ago</div>
+                                    <div class="warning-severity severity-low">Low</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

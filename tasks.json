@@ -1,0 +1,94 @@
+{
+  "tasks": [
+    {
+      "id": "TSK001",
+      "title": "Follow up with Acme Corporation",
+      "description": "Call John Smith to discuss proposal details",
+      "dueDate": "2025-04-22",
+      "priority": "High",
+      "status": "Not Started",
+      "assignedTo": "John Smith"
+    },
+    {
+      "id": "TSK002",
+      "title": "Prepare demo for Globex Inc",
+      "description": "Create custom demo for marketing platform upgrade",
+      "dueDate": "2025-04-23",
+      "priority": "High",
+      "status": "In Progress",
+      "assignedTo": "Sarah Johnson"
+    },
+    {
+      "id": "TSK003",
+      "title": "Send case studies to Initech",
+      "description": "Share relevant executive dashboard implementation examples",
+      "dueDate": "2025-04-21",
+      "priority": "Medium",
+      "status": "Not Started",
+      "assignedTo": "Michael Brown"
+    },
+    {
+      "id": "TSK004",
+      "title": "Schedule implementation kickoff with Umbrella Corp",
+      "description": "Coordinate with implementation team and client stakeholders",
+      "dueDate": "2025-04-24",
+      "priority": "High",
+      "status": "Not Started",
+      "assignedTo": "Emily Davis"
+    },
+    {
+      "id": "TSK005",
+      "title": "Technical evaluation follow-up with Stark Industries",
+      "description": "Address questions from IT team about infrastructure requirements",
+      "dueDate": "2025-04-25",
+      "priority": "Medium",
+      "status": "Not Started",
+      "assignedTo": "David Wilson"
+    },
+    {
+      "id": "TSK006",
+      "title": "Quarterly business review with Wayne Enterprises",
+      "description": "Review implementation success metrics and discuss expansion opportunities",
+      "dueDate": "2025-04-30",
+      "priority": "Medium",
+      "status": "Not Started",
+      "assignedTo": "Jennifer Taylor"
+    },
+    {
+      "id": "TSK007",
+      "title": "Competitor analysis for Oscorp Industries pitch",
+      "description": "Research competitive offerings for sales analytics platforms",
+      "dueDate": "2025-04-22",
+      "priority": "Medium",
+      "status": "In Progress",
+      "assignedTo": "Lisa Martinez"
+    },
+    {
+      "id": "TSK008",
+      "title": "Finalize proposal for Massive Dynamic",
+      "description": "Complete enterprise security solution proposal with pricing details",
+      "dueDate": "2025-04-23",
+      "priority": "High",
+      "status": "In Progress",
+      "assignedTo": "Thomas Garcia"
+    },
+    {
+      "id": "TSK009",
+      "title": "Discovery call notes for Soylent Corp",
+      "description": "Document requirements and next steps from initial discovery call",
+      "dueDate": "2025-04-21",
+      "priority": "Low",
+      "status": "Not Started",
+      "assignedTo": "Amanda Rodriguez"
+    },
+    {
+      "id": "TSK010",
+      "title": "Weekly team pipeline review",
+      "description": "Prepare slides for team meeting showing deal progress and forecasts",
+      "dueDate": "2025-04-22",
+      "priority": "Medium",
+      "status": "Not Started",
+      "assignedTo": "John Smith"
+    }
+  ]
+}

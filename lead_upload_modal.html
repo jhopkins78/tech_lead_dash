@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Commander - Upload Modal</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #90e0ef;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--text-main);
+            line-height: 1.5;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Upload Modal Styles */
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 700px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--gray-dark);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-block {
+            width: 100%;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #3ab7db;
+        }
+
+        /* Progress Indicator Styles */
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .progress-steps::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--gray-light);
+            z-index: 0;
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background-color: var(--light);
+            border: 2px solid var(--gray-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .progress-step.active .step-number {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .progress-step.active .step-label {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .progress-step.completed .step-number {
+            background-color: var(--success);
+            color: white;
+            border-color: var(--success);
+        }
+
+        /* Step 1: Upload Styles */
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-light);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+        }
+
+        .file-icon {
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Step 2: Schema Mapping Styles */
+        .schema-mapping {
+            margin-top: 20px;
+        }
+
+        .mapping-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .mapping-source {
+            flex: 1;
+            font-weight: 500;
+        }
+
+        .mapping-arrow {
+            color: var(--gray);
+        }
+
+        .mapping-target {
+            flex: 1;
+        }
+
+        .mapping-select {
+            width: 100%;
+            padding: 8px 12px;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+        }
+
+        .mapping-preview {
+            margin-top: 20px;
+            border: 1px solid var(--gray-light);
+            border-radius: var(--radius);
+            overflow: hidden;
+        }
+
+        .preview-header {
+            background-color: var(--light);
+            padding: 12px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .preview-body {
+            padding: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .preview-row {
+            display: flex;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .preview-cell {
+            flex: 1;
+            padding: 4px 8px;
+        }
+
+        /* Step 3: Processing Styles */
+        .processing-status {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .processing-icon {
+            font-size: 48px;
+            color: var(--primary);
+            margin-bottom: 16px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0.6;
+            }
+        }
+
+        .processing-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .processing-subtext {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background-color: var(--gray-light);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            width: 75%;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .processing-details {
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .processing-detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--gray-light);
+            font-size: 14px;
+        }
+
+        .processing-detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: var(--text-muted);
+        }
+
+        .detail-value {
+            font-weight: 500;
+        }
+
+        /* Step 4: Success Styles */
+        .success-status {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .success-icon {
+            font-size: 64px;
+            color: #10b981;
+            margin-bottom: 16px;
+        }
+
+        .success-text {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .success-subtext {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        .success-stats {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .insight-preview {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-top: 24px;
+            text-align: left;
+        }
+
+        .insight-preview-title {
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .insight-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .insight-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .insight-content {
+            font-size: 14px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Step Containers */
+        .step-container {
+            display: none;
+        }
+
+        .step-container.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal">
+        <div class="modal-header">
+            <h3 class="modal-title">Upload Lead List</h3>
+            <button class="close-btn">×</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="progress-steps">
+                <div class="progress-step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Upload</div>
+                </div>
+                <div class="progress-step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Map Fields</div>
+                </div>
+                <div class="progress-step completed">
+                    <div class="step-number">✓</div>
+                    <div class="step-label">Process</div>
+                </div>
+                <div class="progress-step active">
+                    <div class="step-number">4</div>
+                    <div class="step-label">Complete</div>
+                </div>
+            </div>
+            
+            <!-- Step 1: Upload (Hidden) -->
+            <div class="step-container" id="step-upload">
+                <div class="upload-area">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Drag & drop files here</div>
+                    <div class="upload-hint">Supports CSV, Excel, and CRM exports</div>
+                </div>
+                
+                <div class="file-list">
+                    <div class="file-item">
+                        <div class="file-icon">📊</div>
+                        <div class="file-info">
+                            <div class="file-name">q2_leads.csv</div>
+                            <div class="file-size">245 KB • 128 leads</div>
+                        </div>
+                        <div class="file-actions">
+                            <button class="btn btn-sm btn-outline">Remove</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Schema Mapping (Hidden) -->
+            <div class="step-container" id="step-mapping">
+                <h4 style="margin-bottom: 16px;">Map Your Fields to Our System</h4>
+                
+                <div class="mapping-row">
+                    <div class="mapping-source">First Name</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-target">
+                        <select class="mapping-select">
+                            <option selected value="first_name">First Name</option>
+                            <option value="last_name">Last Name</option>
+                            <option value="email">Email</option>
+                            <option value="company">Company</option>
+                            <option value="title">Job Title</option>
+                            <option value="phone">Phone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mapping-row">
+                    <div class="mapping-source">Last Name</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-target">
+                        <select class="mapping-select">
+                            <option value="first_name">First Name</option>
+                            <option selected value="last_name">Last Name</option>
+                            <option value="email">Email</option>
+                            <option value="company">Company</option>
+                            <option value="title">Job Title</option>
+                            <option value="phone">Phone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mapping-row">
+                    <div class="mapping-source">Email Address</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-target">
+                        <select class="mapping-select">
+                            <option value="first_name">First Name</option>
+                            <option value="last_name">Last Name</option>
+                            <option selected value="email">Email</option>
+                            <option value="company">Company</option>
+                            <option value="title">Job Title</option>
+                            <option value="phone">Phone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mapping-row">
+                    <div class="mapping-source">Organization</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-target">
+                        <select class="mapping-select">
+                            <option value="first_name">First Name</option>
+                            <option value="last_name">Last Name</option>
+                            <option value="email">Email</option>
+                            <option selected value="company">Company</option>
+                            <option value="title">Job Title</option>
+                            <option value="phone">Phone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mapping-row">
+                    <div class="mapping-source">Position</div>
+                    <div class="mapping-arrow">→</div>
+                    <div class="mapping-target">
+                        <select class="mapping-select">
+                            <option value="first_name">First Name</option>
+                            <option value="last_name">Last Name</option>
+                            <option value="email">Email</option>
+                            <option value="company">Company</option>
+                            <option selected value="title">Job Title</option>
+                            <option value="phone">Phone</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="mapping-preview">
+                    <div class="preview-header">Data Preview</div>
+                    <div class="preview-body">
+                        <div class="preview-row">
+                            <div class="preview-cell"><strong>First Name</strong></div>
+                            <div class="preview-cell"><strong>Last Name</strong></div>
+                            <div class="preview-cell"><strong>Email</strong></div>
+                            <div class="preview-cell"><strong>Company</strong></div>
+                            <div class="preview-cell"><strong>Job Title</strong></div>
+                        </div>
+                        <div class="preview-row">
+                            <div class="preview-cell">John</div>
+                            <div class="preview-cell">Smith</div>
+                            <div class="preview-cell">john.smith@example.com</div>
+                            <div class="preview-cell">Acme Inc.</div>
+                            <div class="preview-cell">CEO</div>
+                        </div>
+                        <div class="preview-row">
+                            <div class="preview-cell">Jane</div>
+                            <div class="preview-cell">Doe</div>
+                            <div class="preview-cell">jane.doe@example.com</div>
+                            <div class="preview-cell">TechCorp</div>
+                            <div class="preview-cell">CTO</div>
+                        </div>
+                        <div class="preview-row">
+                            <div class="preview-cell">Michael</div>
+                            <div class="preview-cell">Johnson</div>
+                            <div class="preview-cell">michael.j@example.com</div>
+                            <div class="preview-cell">Global Systems</div>
+                            <div class="preview-cell">Director</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Processing (Hidden) -->
+            <div class="step-container" id="step-processing">
+                <div class="processing-status">
+                    <div class="processing-icon">⚙️</div>
+                    <div class="processing-text">Processing Your Leads</div>
+                    <div class="processing-subtext">This may take a few minutes. Please don't close this window.</div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <div class="progress-text">
+                        <span>96/128 leads processed</span>
+                        <span>75%</span>
+                    </div>
+                    
+                    <div class="processing-details">
+                        <div class="processing-detail-item">
+                            <span class="detail-label">Validating Data</span>
+                            <span class="detail-value">Completed</span>
+                        </div>
+                        <div class="processing-detail-item">
+                            <span class="detail-label">Importing Records</span>
+                            <span class="detail-value">In Progress</span>
+                        </div>
+                        <div class="processing-detail-item">
+                            <span class="detail-label">Generating Insights</span>
+                            <span class="detail-value">Pending</span>
+                        </div>
+                        <div class="processing-detail-item">
+                            <span class="detail-label">Assigning Scores</span>
+                            <span class="detail-value">Pending</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4: Success (Active) -->
+            <div class="step-container active" id="step-success">
+                <div class="success-status">
+                    <div class="success-icon">✅</div>
+                    <div class="success-text">Upload Complete!</div>
+                    <div class="success-subtext">Your leads have been successfully imported and analyzed.</div>
+                    
+                    <div class="success-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">Leads Imported</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">42</div>
+                            <div class="stat-label">High-Value Leads</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">18</div>
+                            <div class="stat-label">Insights Generated</div>
+                        </div>
+                    </div>
+                    
+                    <div class="insight-preview">
+                        <div class="insight-preview-title">
+                            <span>AI-Generated Insights</span>
+                            <button class="btn btn-sm btn-outline">View All</button>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-content">
+                                <strong>Industry Concentration:</strong> 45% of imported leads are from the Technology sector, suggesting a potential focus area for targeted campaigns.
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-content">
+                                <strong>High-Value Segment:</strong> 32% of leads qualify as high-value based on company size and job title, with most being C-level executives.
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-content">
+                                <strong>Geographic Opportunity:</strong> Significant cluster of leads from the Northeast region, with potential for regional event planning.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-outline">Close</button>
+            <button class="btn btn-success">View Leads</button>
+        </div>
+    </div>
+    
+    <script>
+        // This would normally contain the logic to handle the multi-step process
+        // For this mockup, we're just showing the final success state
+    </script>
+</body>
+</html>

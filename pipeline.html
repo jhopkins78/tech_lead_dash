@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Dynamics - Lead Commander</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Pipeline Dynamics - Visual representation of the sales pipeline with drag-and-drop functionality for moving leads between stages.">
+</head>
+<body>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                Lead Commander
+            </div>
+            
+            <nav class="nav">
+                <a href="../index.html" class="nav-item">Dashboard</a>
+                <a href="leads.html" class="nav-item">Leads</a>
+                <a href="pipeline.html" class="nav-item active">Pipeline</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="automation.html" class="nav-item">Automation</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search leads, companies, tasks...">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <div class="notification-badge">3</div>
+                    
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <div class="notification-title">Notifications</div>
+                            <div class="notification-actions">Mark all as read</div>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Weekly lead report is ready</div>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">🔥</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">High-priority lead assigned: John Smith from Acme Corp</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">📅</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Follow-up reminder: Call Sarah Johnson</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-footer">
+                            View all notifications
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+                
+                <button class="btn btn-primary" id="upload-btn">
+                    Import Leads
+                </button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JS</div>
+                    <div class="user-info">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Sales Manager</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Pipeline Dynamics</h1>
+                
+                <div class="header-actions">
+                    <div class="date-filter">
+                        <button class="date-filter-btn active">Month</button>
+                        <button class="date-filter-btn">Quarter</button>
+                        <button class="date-filter-btn">Year</button>
+                        <button class="date-filter-btn">Custom</button>
+                    </div>
+                    
+                    <button class="btn btn-primary">
+                        + Add Deal
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Pipeline Overview -->
+            <div class="grid">
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Total Pipeline Value</div>
+                        <div class="metric-value">$1.2M</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 8.5% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Active Deals</div>
+                        <div class="metric-value">42</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 5% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Win Rate</div>
+                        <div class="metric-value">32.5%</div>
+                        <div class="metric-trend trend-down">
+                            <span class="trend-icon">↓</span> 1.2% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Avg. Deal Size</div>
+                        <div class="metric-value">$28.5K</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 3.7% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pipeline Funnel & Forecast -->
+            <div class="grid">
+                <div class="col-8 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Pipeline Funnel</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Export</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="lead-funnel-chart"></canvas>
+                        </div>
+                        
+                        <div class="funnel-stats">
+                            <div class="funnel-stat">
+                                <div class="stat-label">Leads</div>
+                                <div class="stat-value">247</div>
+                                <div class="stat-bar" style="width: 100%; background-color: rgba(72, 149, 239, 0.8);"></div>
+                            </div>
+                            <div class="funnel-stat">
+                                <div class="stat-label">Qualified</div>
+                                <div class="stat-value">186</div>
+                                <div class="stat-bar" style="width: 75%; background-color: rgba(72, 149, 239, 0.7);"></div>
+                            </div>
+                            <div class="funnel-stat">
+                                <div class="stat-label">Meeting</div>
+                                <div class="stat-value">124</div>
+                                <div class="stat-bar" style="width: 50%; background-color: rgba(72, 149, 239, 0.6);"></div>
+                            </div>
+                            <div class="funnel-stat">
+                                <div class="stat-label">Proposal</div>
+                                <div class="stat-value">78</div>
+                                <div class="stat-bar" style="width: 32%; background-color: rgba(72, 149, 239, 0.5);"></div>
+                            </div>
+                            <div class="funnel-stat">
+                                <div class="stat-label">Negotiation</div>
+                                <div class="stat-value">42</div>
+                                <div class="stat-bar" style="width: 17%; background-color: rgba(72, 149, 239, 0.4);"></div>
+                            </div>
+                            <div class="funnel-stat">
+                                <div class="stat-label">Closed</div>
+                                <div class="stat-value">18</div>
+                                <div class="stat-bar" style="width: 7%; background-color: rgba(72, 149, 239, 0.3);"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-4 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Revenue Forecast</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="revenue-forecast-chart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Win/Loss Analysis</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="win-loss-stats">
+                            <div class="win-loss-ratio">
+                                <div class="win-segment" style="width: 65%;">
+                                    <span>65% Won</span>
+                                </div>
+                                <div class="loss-segment" style="width: 35%;">
+                                    <span>35% Lost</span>
+                                </div>
+                            </div>
+                            
+                            <div class="win-loss-reasons">
+                                <div class="reason-section">
+                                    <h4>Top Win Reasons</h4>
+                                    <ul>
+                                        <li>Product features (42%)</li>
+                                        <li>Customer service (28%)</li>
+                                        <li>Pricing (18%)</li>
+                                        <li>Integration capabilities (12%)</li>
+                                    </ul>
+                                </div>
+                                
+                                <div class="reason-section">
+                                    <h4>Top Loss Reasons</h4>
+                                    <ul>
+                                        <li>Budget constraints (38%)</li>
+                                        <li>Competitor selection (27%)</li>
+                                        <li>Feature gaps (22%)</li>
+                                        <li>Timing issues (13%)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pipeline Kanban Board -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Deal Pipeline</div>
+                    <div class="card-actions">
+                        <div class="filter-dropdown">
+                            <button class="btn btn-sm btn-outline">Filter <span class="dropdown-icon">▼</span></button>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Show All
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> High Value
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Medium Value
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Low Value
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                </div>
+                
+                <div class="kanban-board" id="pipeline-board">
+                    <div class="kanban-column" data-status="qualified">
+                        <div class="column-header">
+                            <div class="column-title">Qualified</div>
+                            <div class="column-counter">8</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card" id="deal-001" data-status="qualified">
+                                <div class="card-title">Acme Corporation</div>
+                                <div class="card-subtitle">Enterprise CRM Solution</div>
+                                <div class="card-value">$75,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 15</div>
+              
+(Content truncated due to size limit. Use line ranges to read in chunks)

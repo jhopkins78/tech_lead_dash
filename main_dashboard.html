@@ -1,0 +1,1336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Commander - Executive Dashboard</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #90e0ef;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            grid-template-columns: 1fr;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            grid-row: 1;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-item {
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--gray-light);
+        }
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background-color: var(--gray-light);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .user-info {
+                display: block;
+            }
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            grid-row: 2;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            overflow: hidden;
+        }
+
+        .dashboard-content {
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .metrics-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 24px;
+        }
+
+        .metric-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .metric-title {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .trend-icon {
+            margin-right: 4px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .priority-leads {
+            grid-column: span 8;
+        }
+
+        .lead-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .lead-item:last-child {
+            border-bottom: none;
+        }
+
+        .lead-score {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            margin-right: 16px;
+        }
+
+        .lead-score.high {
+            background-color: #10b981;
+        }
+
+        .lead-score.medium {
+            background-color: var(--warning);
+        }
+
+        .lead-score.low {
+            background-color: var(--danger);
+        }
+
+        .lead-info {
+            flex: 1;
+        }
+
+        .lead-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .lead-details {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .lead-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        .tasks-card {
+            grid-column: span 4;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .task-item:last-child {
+            border-bottom: none;
+        }
+
+        .task-checkbox {
+            margin-right: 12px;
+            margin-top: 2px;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .task-meta {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .task-due {
+            margin-right: 12px;
+        }
+
+        .task-priority {
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .priority-high {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+
+        .priority-medium {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .priority-low {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .funnel-card {
+            grid-column: span 6;
+        }
+
+        .funnel-chart {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            margin-top: 16px;
+        }
+
+        .funnel-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        .funnel-bar {
+            width: 80%;
+            background-color: var(--primary-light);
+            border-radius: var(--radius) var(--radius) 0 0;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .funnel-bar:hover {
+            background-color: var(--primary);
+        }
+
+        .funnel-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            text-align: center;
+        }
+
+        .funnel-value {
+            font-size: 14px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .insights-card {
+            grid-column: span 6;
+        }
+
+        .insight-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .insight-item:last-child {
+            border-bottom: none;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .insight-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+        }
+
+        .insight-title {
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .insight-time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .insight-content {
+            font-size: 14px;
+            margin-left: 44px;
+        }
+
+        /* Side Panel Styles */
+        .side-panel {
+            background-color: var(--card-bg);
+            border-left: 1px solid var(--border-color);
+            padding: 24px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .assistant-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            margin-bottom: 16px;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            max-width: 85%;
+        }
+
+        .message-assistant {
+            align-self: flex-start;
+        }
+
+        .message-user {
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message-content {
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+        }
+
+        .message-assistant .message-content {
+            background-color: var(--gray-light);
+            border-bottom-left-radius: 4px;
+        }
+
+        .message-user .message-content {
+            background-color: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            align-items: center;
+            background-color: var(--light);
+            border: 1px solid var(--gray-light);
+            border-radius: 24px;
+            padding: 8px 16px;
+        }
+
+        .chat-input-field {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+
+        .chat-input-field:focus {
+            outline: none;
+        }
+
+        .send-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .send-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        /* Upload Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .close-btn:hover {
+            color: var(--gray-dark);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .upload-area {
+            border: 2px dashed var(--gray-light);
+            border-radius: var(--radius);
+            padding: 40px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-light);
+        }
+
+        .upload-icon {
+            font-size: 48px;
+            color: var(--gray);
+            margin-bottom: 16px;
+        }
+
+        .upload-text {
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .upload-hint {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .file-list {
+            margin-top: 20px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 8px;
+        }
+
+        .file-icon {
+            margin-right: 12px;
+            color: var(--primary);
+        }
+
+        .file-info {
+            flex: 1;
+        }
+
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .file-size {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal-footer {
+            padding: 16px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .priority-leads {
+                grid-column: span 6;
+            }
+
+            .tasks-card {
+                grid-column: span 6;
+            }
+
+            .funnel-card {
+                grid-column: span 6;
+            }
+
+            .insights-card {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .side-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .metrics-row {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .priority-leads,
+            .tasks-card,
+            .funnel-card,
+            .insights-card {
+                grid-column: span 1;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            --body-bg: #121212;
+            --card-bg: #1e1e2c;
+            --text-main: #e9ecef;
+            --text-muted: #adb5bd;
+            --border-color: #2d2d3a;
+            --gray-light: #2d2d3a;
+            --light: #2d2d3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                <span>Lead Commander</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item active">Dashboard</a>
+                <a href="#" class="nav-item">Leads</a>
+                <a href="#" class="nav-item">Pipeline</a>
+                <a href="#" class="nav-item">Market</a>
+                <a href="#" class="nav-item">Team</a>
+                <a href="#" class="nav-item">Automation</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search leads, tasks, insights...">
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <button class="icon-btn">⚙️</button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Sales Director</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="dashboard-content">
+                <h1 class="page-title">Daily Briefing</h1>
+                
+                <!-- Metrics Row -->
+                <div class="metrics-row">
+                    <div class="metric-card">
+                        <div class="metric-title">Active Leads</div>
+                        <div class="metric-value">247</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 12% from last week
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">Conversion Rate</div>
+                        <div class="metric-value">24.8%</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 3.2% from last week
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">Avg. Deal Size</div>
+                        <div class="metric-value">$42,500</div>
+                        <div class="metric-trend trend-down">
+                            <span class="trend-icon">↓</span> 5.1% from last week
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-title">Pipeline Value</div>
+                        <div class="metric-value">$3.2M</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 8.7% from last week
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dashboard Grid -->
+                <div class="dashboard-grid">
+                    <!-- Priority Leads Card -->
+                    <div class="card priority-leads">
+                        <div class="card-header">
+                            <h2 class="card-title">Priority Leads</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Filter</button>
+                                <button class="btn btn-sm btn-primary">Add Lead</button>
+                            </div>
+                        </div>
+                        
+                        <div class="lead-item">
+                            <div class="lead-score high">92</div>
+                            <div class="lead-info">
+                                <div class="lead-name">Acme Corporation</div>
+                                <div class="lead-details">Enterprise SaaS • $250K • 85% qualified</div>
+                            </div>
+                            <div class="lead-actions">
+                                <button class="btn btn-sm btn-outline">View</button>
+                                <button class="btn btn-sm btn-primary">Contact</button>
+                            </div>
+                        </div>
+                        
+                        <div class="lead-item">
+                            <div class="lead-score high">87</div>
+                            <div class="lead-info">
+                                <div class="lead-name">TechGiant Solutions</div>
+                                <div class="lead-details">IT Services • $180K • 78% qualified</div>
+                            </div>
+                            <div class="lead-actions">
+                                <button class="btn btn-sm btn-outline">View</button>
+                                <button class="btn btn-sm btn-primary">Contact</button>
+                            </div>
+                        </div>
+                        
+                        <div class="lead-item">
+                            <div class="lead-score medium">76</div>
+                            <div class="lead-info">
+                                <div class="lead-name">Global Innovations Inc.</div>
+                                <div class="lead-details">Manufacturing • $120K • 65% qualified</div>
+                            </div>
+                            <div class="lead-actions">
+                                <button class="btn btn-sm btn-outline">View</button>
+                                <button class="btn btn-sm btn-primary">Contact</button>
+                            </div>
+                        </div>
+                        
+                        <div class="lead-item">
+                            <div class="lead-score medium">68</div>
+                            <div class="lead-info">
+                                <div class="lead-name">Quantum Dynamics</div>
+                                <div class="lead-details">Research • $95K • 62% qualified</div>
+                            </div>
+                            <div class="lead-actions">
+                                <button class="btn btn-sm btn-outline">View</button>
+                                <button class="btn btn-sm btn-primary">Contact</button>
+                            </div>
+                        </div>
+                        
+                        <div class="lead-item">
+                            <div class="lead-score low">54</div>
+                            <div class="lead-info">
+                                <div class="lead-name">Stellar Enterprises</div>
+                                <div class="lead-details">Aerospace • $320K • 45% qualified</div>
+                            </div>
+                            <div class="lead-actions">
+                                <button class="btn btn-sm btn-outline">View</button>
+                                <button class="btn btn-sm btn-primary">Contact</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tasks Card -->
+                    <div class="card tasks-card">
+                        <div class="card-header">
+                            <h2 class="card-title">Today's Tasks</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">View All</button>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-title">Follow up with Acme Corporation</div>
+                                <div class="task-meta">
+                                    <span class="task-due">Due: 2:00 PM</span>
+                                    <span class="task-priority priority-high">High</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-title">Prepare proposal for TechGiant</div>
+                                <div class="task-meta">
+                                    <span class="task-due">Due: 4:30 PM</span>
+                                    <span class="task-priority priority-high">High</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-title">Schedule demo with Global Innovations</div>
+                                <div class="task-meta">
+                                    <span class="task-due">Due: Tomorrow</span>
+                                    <span class="task-priority priority-medium">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-title">Review pipeline forecast</div>
+                                <div class="task-meta">
+                                    <span class="task-due">Due: Today</span>
+                                    <span class="task-priority priority-medium">Medium</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="task-item">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-title">Update CRM with new leads</div>
+                                <div class="task-meta">
+                                    <span class="task-due">Due: 5:00 PM</span>
+                                    <span class="task-priority priority-low">Low</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Funnel Card -->
+                    <div class="card funnel-card">
+                        <div class="card-header">
+                            <h2 class="card-title">Pipeline Funnel</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="funnel-chart">
+                            <div class="funnel-stage">
+                                <div class="funnel-bar" style="height: 180px;"></div>
+                                <div class="funnel-label">Leads</div>
+                                <div class="funnel-value">247</div>
+                            </div>
+                            
+                            <div class="funnel-stage">
+                                <div class="funnel-bar" style="height: 150px;"></div>
+                                <div class="funnel-label">Qualified</div>
+                                <div class="funnel-value">186</div>
+                            </div>
+                            
+                            <div class="funnel-stage">
+                                <div class="funnel-bar" style="height: 120px;"></div>
+                                <div class="funnel-label">Meetings</div>
+                                <div class="funnel-value">124</div>
+                            </div>
+                            
+                            <div class="funnel-stage">
+                                <div class="funnel-bar" style="height: 90px;"></div>
+                                <div class="funnel-label">Proposals</div>
+                                <div class="funnel-value">78</div>
+                            </div>
+                            
+                            <div class="funnel-stage">
+                                <div class="funnel-bar" style="height: 60px;"></div>
+                                <div class="funnel-label">Negotiations</div>
+                                <div class="funnel-value">42</div>
+                            </div>
+                            
+                            <div class="funnel-stage">
+                                <div class="funnel-bar" style="height: 30px;"></div>
+                                <div class="funnel-label">Closed</div>
+                                <div class="funnel-value">18</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Insights Card -->
+                    <div class="card insights-card">
+                        <div class="card-header">
+                            <h2 class="card-title">AI Insights</h2>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-primary">Refresh</button>
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-header">
+                                <div class="insight-icon">💡</div>
+                                <div class="insight-title">Lead Opportunity</div>
+                                <div class="insight-time">10m ago</div>
+                            </div>
+                            <div class="insight-content">
+                                Acme Corporation has viewed your pricing page 5 times in the last 24 hours. Consider scheduling a follow-up call to discuss their specific needs.
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-header">
+                                <div class="insight-icon">📈</div>
+                                <div class="insight-title">Market Trend</div>
+                                <div class="insight-time">1h ago</div>
+                            </div>
+                            <div class="insight-content">
+                                Recent industry report shows 27% increase in SaaS adoption in the manufacturing sector. Consider targeting more leads in this vertical.
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-header">
+                                <div class="insight-icon">⚠️</div>
+                                <div class="insight-title">At-Risk Deal</div>
+                                <div class="insight-time">3h ago</div>
+                            </div>
+                            <div class="insight-content">
+                                TechGiant Solutions has been in the proposal stage for 45 days, exceeding the average by 22 days. Risk of deal stagnation is high.
+                            </div>
+                        </div>
+                        
+                        <div class="insight-item">
+                            <div class="insight-header">
+                                <div class="insight-icon">🔍</div>
+                                <div class="insight-title">Competitive Intelligence</div>
+                                <div class="insight-time">5h ago</div>
+                            </div>
+                            <div class="insight-content">
+                                Competitor X has launched a new feature similar to your USP. Consider highlighting your additional benefits in upcoming pitches.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Side Panel Assistant -->
+            <div class="side-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">Side Panel Assistant</h2>
+                    <button class="icon-btn">⚙️</button>
+                </div>
+                
+                <div class="assistant-container">
+                    <div class="chat-messages">
+                        <div class="message message-assistant">
+                            <div class="message-content">
+                                Good morning, John! I've analyzed your pipeline and have some insights for you today.
+                            </div>
+                            <div class="message-time">9:30 AM</div>
+                        </div>
+                        
+                        <div class="message message-assistant">
+                            <div class="message-content">
+                                Acme Corporation shows high intent signals. They've viewed your pricing page multiple times and downloaded your case studies. This might be a good time to follow up.
+                            </div>
+                            <div class="message-time">9:31 AM</div>
+                        </div>
+                        
+                        <div class="message message-user">
+                            <div class="message-content">
+                                Thanks for the heads up. Can you draft a follow-up email for me?
+                            </div>
+                            <div class="message-time">9:33 AM</div>
+                        </div>
+                        
+                        <div class="message message-assistant">
+                            <div class="message-content">
+                                I've drafted a follow-up email for Acme Corporation. It references their recent interest in your enterprise solution and offers a personalized demo. Would you like me to show you the draft?
+                            </div>
+                            <div class="message-time">9:34 AM</div>
+                        </div>
+                        
+                        <div class="message message-user">
+                            <div class="message-content">
+                                Yes, please show me the draft.
+                            </div>
+                            <div class="message-time">9:35 AM</div>
+                        </div>
+                        
+                        <div class="message message-assistant">
+                            <div class="message-content">
+                                Here's the draft email:
+                                
+                                Subject: Personalized Demo for Acme Corporation
+                                
+                                Hi Sarah,
+                                
+                                I noticed you've been exploring our enterprise solutions recently. I'd love to schedule a personalized demo focused on the specific challenges we discussed in our last meeting.
+                                
+                                How does your calendar look this Thursday at 2 PM?
+                                
+                                Best regards,
+                                John
+                            </div>
+                            <div class="message-time">9:36 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" class="chat-input-field" placeholder="Ask me anything...">
+                        <button class="send-btn">➤</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Upload Modal (Hidden by default) -->
+        <div class="modal-overlay" style="display: none;">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">Upload Lead List</h3>
+                    <button class="close-btn">×</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div class="upload-area">
+                        <div class="upload-icon">📁</div>
+                        <div class="upload-text">Drag & drop files here</div>
+                        <div class="upload-hint">Supports CSV, Excel, and CRM exports</div>
+                    </div>
+                    
+                    <div class="file-list">
+                        <div class="file-item">
+                            <div class="file-icon">📊</div>
+                            <div class="file-info">
+                                <div class="file-name">q2_leads.csv</div>
+                                <div class="file-size">245 KB • 128 leads</div>
+                            </div>
+                            <div class="file-actions">
+                                <button class="btn btn-sm btn-outline">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button class="btn btn-outline">Cancel</button>
+                    <button class="btn btn-primary">Upload & Process</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Simple toggle for dark mode (for demonstration)
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+        
+        // Show upload modal (for demonstration)
+        function showUploadModal() {
+            document.querySelector('.modal-overlay').style.display = 'flex';
+        }
+        
+        // Hide upload modal (for demonstration)
+        function hideUploadModal() {
+            document.querySelector('.modal-overlay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

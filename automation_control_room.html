@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Commander - Automation Control Room</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #90e0ef;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            grid-template-columns: 1fr;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            grid-row: 1;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-item {
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--gray-light);
+        }
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background-color: var(--gray-light);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .user-info {
+                display: block;
+            }
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            grid-row: 2;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #3db8dc;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #e01e79;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #e78817;
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        /* Automation Overview */
+        .overview-card {
+            grid-column: span 12;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .overview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .overview-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .overview-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .overview-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .stat-trend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .trend-icon {
+            margin-right: 4px;
+        }
+
+        /* Active Workflows */
+        .workflows-card {
+            grid-column: span 8;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .workflows-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .workflows-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .workflows-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .workflow-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .workflow-item {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .workflow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .workflow-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .workflow-description {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .workflow-status {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        .status-paused {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .status-draft {
+            background-color: rgba(108, 117, 125, 0.1);
+            color: var(--gray);
+        }
+
+        .workflow-metrics {
+            display: flex;
+            gap: 16px;
+        }
+
+        .workflow-metric {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .metric-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .workflow-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+
+        /* Automation Sidebar */
+        .automation-sidebar {
+            grid-column: span 4;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .performance-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .performance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .performance-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .performance-chart {
+            height: 200px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .performance-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .performance-stat {
+            text-align: center;
+        }
+
+        .performance-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .performance-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .alerts-card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .alerts-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .alerts-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .alert-item:last-child {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .alert-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .alert-description {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+
+        .alert-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .alert-time {
+            color: var(--text-muted);
+        }
+
+        .alert-severity {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .severity-high {
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+        }
+
+        .severity-medium {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .severity-low {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--success);
+        }
+
+        /* Workflow Builder */
+        .builder-card {
+            grid-column: span 12;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .builder-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .builder-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .builder-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .builder-content {
+            display: flex;
+            gap: 24px;
+        }
+
+        .builder-sidebar {
+            width: 240px;
+            flex-shrink: 0;
+        }
+
+        .builder-components {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 16px;
+        }
+
+        .components-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .component-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .component-category {
+            margin-bottom: 12px;
+        }
+
+        .category-title {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .component-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .component-item:hover {
+            background-color: var(--gray-light);
+        }
+
+        .component-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+
+        .builder-canvas {
+            flex: 1;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 24px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .canvas-placeholder {
+            text-align: center;
+            color: var(--text-muted);
+            max-width: 400px;
+        }
+
+        .placeholder-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .placeholder-description {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        /* Automation Templates */
+        .templates-card {
+            grid-column: span 12;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .templates-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .templates-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .templates-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .template-item {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .template-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .template-image {
+            height: 140px;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+        }
+
+        .template-content {
+            padding: 16px;
+        }
+
+        .template-name {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .template-description {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .template-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .template-complexity {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .complexity-dots {
+            display: flex;
+            gap: 2px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--gray-light);
+        }
+
+        .dot.active {
+            background-color: var(--primary);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .workflows-card {
+                grid-column: span 6;
+            }
+
+            .automation-sidebar {
+                grid-column: span 6;
+            }
+
+            .builder-content {
+                flex-direction: column;
+            }
+
+            .builder-sidebar {
+                width: 100%;
+            }
+
+            .templates-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflows-card,
+            .automation-sidebar {
+                grid-column: span 1;
+            }
+
+            .overview-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .templates-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            --body-bg: #121212;
+            --card-bg: #1e1e2c;
+            --text-main: #e9ecef;
+            --text-muted: #adb5bd;
+            --border-color: #2d2d3a;
+            --gray-light: #2d2d3a;
+            --light: #2d2d3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                <span>Lead Commander</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item">Leads</a>
+                <a href="#" class="nav-item">Pipeline</a>
+                <a href="#" class="nav-item">Market</a>
+                <a href="#" class="nav-item">Team</a>
+                <a href="#" class="nav-item active">Automation</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search workflows, templates...">
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <button class="icon-btn">⚙️</button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Sales Director</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Automation Control Room</h1>
+                
+                <div class="header-actions">
+                    <button class="btn btn-outline">Import</button>
+                    <button class="btn btn-outline">Export</button>
+                    <button class="btn btn-primary">Create Workflow</button>
+                </div>
+            </div>
+            
+            <!-- Automation Overview -->
+            <div class="overview-card">
+                <div class="overview-header">
+                    <h2 class="overview-title">Automation Overview</h2>
+                    
+                    <div class="overview-actions">
+                        <button class="btn btn-sm btn-outline">Details</button>
+                    </div>
+                </div>
+                
+                <div class="overview-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">12</div>
+                        <div class="stat-label">Active Workflows</div>
+                        <div class="stat-trend trend-up">
+                            <span class="trend-icon">↑</span> 2 from last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-value">3,847</div>
+                        <div class="stat-label">Tasks Automated</div>
+                        <div class="stat-trend trend-up">
+                            <span class="trend-icon">↑</span> 18% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-value">42.5h</div>
+                        <div class="stat-label">Time Saved</div>
+                        <div class="stat-trend trend-up">
+                            <span class="trend-icon">↑</span> 15% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-value">98.2%</div>
+                        <div class="stat-label">Workflow Success Rate</div>
+                        <div class="stat-trend trend-up">
+                            <span class="trend-icon">↑</span> 1.5% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Active Workflows -->
+                <div class="workflows-card">
+                    <div class="workflows-header">
+                        <h2 class="workflows-title">Active Workflows</h2>
+                        
+                        <div class="workflows-actions">
+                            <button class="btn btn-sm btn-outline">Filter</button>
+                            <button class="btn btn-sm btn-outline">Sort</button>
+                        </div>
+                    </div>
+                    
+                    <div class="workflow-list">
+                        <div class="workflow-item">
+                            <div class="workflow-header">
+                                <div>
+                                    <div class="workflow-name">Lead Qualification Automation</div>
+                                    <div class="workflow-description">Automatically scores and qualifies new leads based on predefined criteria</div>
+                                </div>
+                                <span class="workflow-status status-active">Active</span>
+                            </div>
+                            
+                            <div class="workflow-metrics">
+                                <div class="workflow-metric">
+                                    <div class="metric-value">1,245</div>
+                                    <div class="metric-label">Leads Processed</div>
+                                </div>
+                                
+                                <div class="workflow-metric">
+                                    <div class="metric-value">99.1%</div>
+                                    <div class="metric-label">Success Rate</div>
+                                </div>
+                                
+                                <div class="workflow-metric">
+                                    <div class="metric-value">15.2h</div>
+                                    <div class="metric-label">Time Saved</div>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-warning">Pause</button>
+                            </div>
+                        </div>
+                        
+                        <div class="workflow-item">
+                            <div class="workflow-header">
+                                <div>
+                                    <div class="workflow-name">Follow-up Sequence</div>
+                                    <div class="workflow-description">Sends personalized follow-up emails based on lead engagement and response</div>
+                                </div>
+                                <span class="workflow-status status-active">Active</span>
+                            </div>
+                            
+                            <div class="workflow-metrics">
+                                <div class="workflow-metric">
+                                    <div class="metric-value">842</div>
+                                    <div class="metric-label">Emails Sent</div>
+                                </div>
+                                
+                                <div class="workflow-metric">
+                                    <div class="metric-value">97.8%</div>
+                                    <div class="metric-label">Success Rate</div>
+                                </div>
+                                
+                                <div class="workflow-metric">
+                                    <div class="metric-value">10.5h</div>
+                                    <div class="metric-label">Time Saved</div>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-warning">Pause</button>
+                            </div>
+                        </div>
+                        
+                        <div class="workflow-item">
+                            <div class="workflow-header">
+                                <div>
+                                    <div class="workflow-name">Meeting Scheduler</div>
+                                    <div class="workflow-description">Automates meeting scheduling with qualified leads based on rep availability</div>
+                                </div>
+                                <span class="workflow-status status-paused">Paused</span>
+                            </div>
+                            
+                            <div class="workflow-metrics">
+                                <div class="workflow-metric">
+                                    <div class="metric-value">128</div>
+                                    <div class="metric-label">Meetings Scheduled</div>
+                                </div>
+                                
+                                <div class="workflow-metric">
+                                    <div class="metric-value">95.3%</div>
+                                    <div class="metric-label">Success Rate</div>
+                                </div>
+                                
+                                <div class="workflow-metric">
+                                    <div class="metric-value">8.7h</div>
+                                    <div class="metric-label">Time Saved</div>
+                                </div>
+                            </div>
+                            
+                            <div class="workflow-actions">
+                                <button class="btn btn-sm btn-outline">Edit</button>
+                                <button class="btn btn-sm btn-success">Resume</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Automation Sidebar -->
+                <div class="automation-sidebar">
+                    <!-- Performance Metrics -->
+                    <div class="performance-card">
+                        <div class="performance-header">
+                            <h2 class="performance-title">Performance Metrics</h2>
+                        </div>
+                        
+                        <div class="performance-chart">
+                            [Performance Chart - Line chart showing automation metrics over time]
+                        </div>
+                        
+                        <div class="performance-stats">
+                            <div class="performance-stat">
+                                <div class="performance-value">87%</div>
+                                <div class="performance-label">Lead Coverage</div>
+                            </div>
+                            
+                            <div class="performance-stat">
+                                <div class="performance-value">92%</div>
+                                <div class="performance-label">Task Automation</div>
+                            </div>
+                            
+                            <div class="performance-stat">
+                                <div class="performance-value">3.2h</div>
+                                <div class="performance-label">Daily Time Saved</div>
+                            </div>
+                            
+                            <div class="performance-stat">
+                                <div class="performance-value">+18%</div>
+                                <div class="performance-label">Conversion Lift</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Automation Alerts -->
+                    <div class="alerts-card">
+                        <div class="alerts-header">
+                            <h2 class="alerts-title">Automation Alerts</h2>
+                        </div>
+                        
+                        <div class="alerts-list">
+                            <div class="alert-item">
+                                <div class="alert-icon">⚠️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">API Rate Limit Warning</div>
+                                    <div class="alert-description">
+                                        CRM API usage at 85% of daily limit. May affect Lead Qualification workflow.
+                                    </div>
+                                    <div class="alert-meta">
+                                        <div class="alert-time">2 hours ago</div>
+                                        <div class="alert-severity severity-medium">Medium</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-item">
+                                <div class="alert-icon">⚠️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Workflow Error</div>
+                                    <div class="alert-description">
+                                        Meeting Scheduler workflow encountered 3 errors in the last 24 hours.
+                                    </div>
+                                    <div class="alert-meta">
+                                        <div class="alert-time">1 day ago</div>
+                                        <div class="alert-severity severity-high">High</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-item">
+                                <div class="alert-icon">ℹ️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Optimization Opportunity</div>
+                                    <div class="alert-description">
+                                        Follow-up Sequence workflow could be optimized for 15% better performance.
+                                    </div>
+                                    <div class="alert-meta">
+                                        <div class="alert-time">3 days ago</div>
+                                        <div class="alert-severity severity-low">Low</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Workflow Builder -->
+                <div class="builder-card">
+                    <div class="builder-header">
+                        <h2 class="builder-title">Workflow Builder</h2>
+                        
+                        <div class="builder-actions">
+                            <button class="btn btn-sm btn-outline">Save Draft</button>
+                            <button class="btn btn-sm btn-primary">Create New</button>
+                        </div>
+                    </div>
+                    
+                    <div class="builder-content">
+                        <div class="builder-sidebar">
+                            <div class="builder-components">
+                                <h3 class="components-title">Components</h3>
+                                
+                                <div class="component-list">
+                                    <div class="component-category">
+                                        <div class="category-title">Triggers</div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">T</div>
+                                            <span>New Lead</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">T</div>
+                                            <span>Lead Status Change</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">T</div>
+                                            <span>Form Submission</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="component-category">
+                                        <div class="category-title">Actions</div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">A</div>
+                                            <span>Send Email</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">A</div>
+                                            <span>Update Lead</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">A</div>
+                                            <span>Create Task</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="component-category">
+                                        <div class="category-title">Logic</div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">L</div>
+                                            <span>Condition</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">L</div>
+                                            <span>Delay</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">L</div>
+                                            <span>Split Path</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="component-category">
+                                        <div class="category-title">Integrations</div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">I</div>
+                                            <span>CRM</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">I</div>
+                                            <span>Calendar</span>
+                                        </div>
+                                        
+                                        <div class="component-item">
+                                            <div class="component-icon">I</div>
+                                            <span>Messaging</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="builder-canvas">
+                            <div class="canvas-placeholder">
+                                <div class="placeholder-title">Start Building Your Workflow</div>
+                                <div class="placeholder-description">
+                                    Drag and drop components from the sidebar to create your custom workflow. Start with a trigger, add actions and logic, then connect them to automate your lead processes.
+                                </div>
+                                <button class="btn btn-primary">Start with Template</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Automation Templates -->
+                <div class="templates-card">
+                    <div class="templates-header">
+                        <h2 class="templates-title">Automation Templates</h2>
+                        
+                        <div class="templates-actions">
+                            <button class="btn btn-sm btn-outline">View All</button>
+                        </div>
+                    </div>
+                    
+                    <div class="templates-grid">
+                        <div class="template-item">
+                            <div class="template-image">🔄</div>
+                            <div class="template-content">
+                                <div class="template-name">Lead Nurturing Sequence</div>
+                                <div class="template-description">
+                                    Automated email sequence to nurture leads through the sales funnel with personalized content.
+                                </div>
+                                <div class="template-meta">
+                                    <div>4 steps</div>
+                                    <div class="template-complexity">
+                                        <span>Complexity:</span>
+                                        <div class="complexity-dots">
+                                            <div class="dot active"></div>
+                                            <div class="dot active"></div>
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="template-item">
+                            <div class="template-image">📊</div>
+                            <div class="template-content">
+                                <div class="template-name">Lead Scoring Model</div>
+                                <div class="template-description">
+                                    Automatically score leads based on demographic data, behavior, and engagement metrics.
+                                </div>
+                                <div class="template-meta">
+                                    <div>6 steps</div>
+                                    <div class="template-complexity">
+                                        <span>Complexity:</span>
+                                        <div class="complexity-dots">
+                                            <div class="dot active"></div>
+                                            <div class="dot active"></div>
+                                            <div class="dot active"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="template-item">
+                            <div class="template-image">📅</div>
+                            <div class="template-content">
+                                <div class="template-name">Meeting Scheduler</div>
+                                <div class="template-description">
+                                    Automate meeting scheduling with qualified leads based on rep availability and lead preferences.
+                                </div>
+                                <div class="template-meta">
+                                    <div>5 steps</div>
+                                    <div class="template-complexity">
+                                        <span>Complexity:</span>
+                                        <div class="complexity-dots">
+                                            <div class="dot active"></div>
+                                            <div class="dot active"></div>
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="template-item">
+                            <div class="template-image">🔔</div>
+                            <div class="template-content">
+                                <div class="template-name">Lead Alert System</div>
+                                <div class="template-description">
+                                    Send real-time notifications to sales reps when high-value leads take specific actions.
+                                </div>
+                                <div class="template-meta">
+                                    <div>3 steps</div>
+                                    <div class="template-complexity">
+                                        <span>Complexity:</span>
+                                        <div class="complexity-dots">
+                                            <div class="dot active"></div>
+                                            <div class="dot"></div>
+                                            <div class="dot"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

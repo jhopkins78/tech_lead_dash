@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Lead Commander</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Settings - Configure your Lead Commander dashboard preferences, user profile, notifications, and integrations.">
+</head>
+<body>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                Lead Commander
+            </div>
+            
+            <nav class="nav">
+                <a href="../index.html" class="nav-item">Dashboard</a>
+                <a href="leads.html" class="nav-item">Leads</a>
+                <a href="pipeline.html" class="nav-item">Pipeline</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="market-signals.html" class="nav-item">Market Signals</a>
+                <a href="automation.html" class="nav-item">Automation</a>
+                <a href="settings.html" class="nav-item active">Settings</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search settings...">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <div class="notification-badge">3</div>
+                    
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <div class="notification-title">Notifications</div>
+                            <div class="notification-actions">Mark all as read</div>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Weekly lead report is ready</div>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">🔥</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">High-priority lead assigned: John Smith from Acme Corp</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">📅</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Follow-up reminder: Call Sarah Johnson</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-footer">
+                            View all notifications
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+                
+                <button class="btn btn-primary" id="upload-btn">
+                    Import Leads
+                </button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JS</div>
+                    <div class="user-info">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Sales Manager</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Settings</h1>
+            </div>
+            
+            <!-- Settings Layout -->
+            <div class="settings-layout">
+                <!-- Settings Sidebar -->
+                <div class="settings-sidebar">
+                    <div class="settings-nav">
+                        <a href="#profile" class="settings-nav-item active" data-section="profile">
+                            <div class="nav-icon">👤</div>
+                            <div class="nav-label">Profile</div>
+                        </a>
+                        <a href="#account" class="settings-nav-item" data-section="account">
+                            <div class="nav-icon">🔐</div>
+                            <div class="nav-label">Account</div>
+                        </a>
+                        <a href="#notifications" class="settings-nav-item" data-section="notifications">
+                            <div class="nav-icon">🔔</div>
+                            <div class="nav-label">Notifications</div>
+                        </a>
+                        <a href="#appearance" class="settings-nav-item" data-section="appearance">
+                            <div class="nav-icon">🎨</div>
+                            <div class="nav-label">Appearance</div>
+                        </a>
+                        <a href="#integrations" class="settings-nav-item" data-section="integrations">
+                            <div class="nav-icon">🔌</div>
+                            <div class="nav-label">Integrations</div>
+                        </a>
+                        <a href="#data-management" class="settings-nav-item" data-section="data-management">
+                            <div class="nav-icon">📊</div>
+                            <div class="nav-label">Data Management</div>
+                        </a>
+                        <a href="#team" class="settings-nav-item" data-section="team">
+                            <div class="nav-icon">👥</div>
+                            <div class="nav-label">Team</div>
+                        </a>
+                        <a href="#billing" class="settings-nav-item" data-section="billing">
+                            <div class="nav-icon">💳</div>
+                            <div class="nav-label">Billing</div>
+                        </a>
+                        <a href="#api" class="settings-nav-item" data-section="api">
+                            <div class="nav-icon">⚙️</div>
+                            <div class="nav-label">API</div>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Settings Content -->
+                <div class="settings-content">
+                    <!-- Profile Section -->
+                    <div class="settings-section active" id="profile">
+                        <div class="section-header">
+                            <h2 class="section-title">Profile Settings</h2>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                        
+                        <div class="profile-settings">
+                            <div class="profile-avatar">
+                                <div class="avatar-preview">
+                                    <div class="avatar large">JS</div>
+                                </div>
+                                <div class="avatar-actions">
+                                    <button class="btn btn-outline">Upload Photo</button>
+                                    <button class="btn btn-outline">Remove</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-name">Full Name</label>
+                                <input type="text" id="profile-name" class="form-control" value="John Smith">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-email">Email Address</label>
+                                <input type="email" id="profile-email" class="form-control" value="john.smith@example.com">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-phone">Phone Number</label>
+                                <input type="tel" id="profile-phone" class="form-control" value="(555) 123-4567">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-title">Job Title</label>
+                                <input type="text" id="profile-title" class="form-control" value="Sales Manager">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-department">Department</label>
+                                <select id="profile-department" class="form-control">
+                                    <option value="sales" selected>Sales</option>
+                                    <option value="marketing">Marketing</option>
+                                    <option value="customer-success">Customer Success</option>
+                                    <option value="operations">Operations</option>
+                                    <option value="executive">Executive</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-timezone">Timezone</label>
+                                <select id="profile-timezone" class="form-control">
+                                    <option value="utc-8" selected>Pacific Time (UTC-8)</option>
+                                    <option value="utc-7">Mountain Time (UTC-7)</option>
+                                    <option value="utc-6">Central Time (UTC-6)</option>
+                                    <option value="utc-5">Eastern Time (UTC-5)</option>
+                                    <option value="utc-0">UTC</option>
+                                    <option value="utc+1">Central European Time (UTC+1)</option>
+                                    <option value="utc+8">China Standard Time (UTC+8)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-bio">Bio</label>
+                                <textarea id="profile-bio" class="form-control" rows="4">Sales professional with 10+ years of experience in B2B software sales. Specializing in CRM solutions and sales process optimization.</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Account Section -->
+                    <div class="settings-section" id="account">
+                        <div class="section-header">
+                            <h2 class="section-title">Account Settings</h2>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                        
+                        <div class="account-settings">
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Password</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="form-group">
+                                        <label for="current-password">Current Password</label>
+                                        <input type="password" id="current-password" class="form-control" placeholder="Enter current password">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="new-password">New Password</label>
+                                        <input type="password" id="new-password" class="form-control" placeholder="Enter new password">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="confirm-password">Confirm New Password</label>
+                                        <input type="password" id="confirm-password" class="form-control" placeholder="Confirm new password">
+                                    </div>
+                                    
+                                    <button class="btn btn-outline">Change Password</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Two-Factor Authentication</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Enable Two-Factor Authentication</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="setting-description">
+                                        Two-factor authentication adds an extra layer of security to your account by requiring a verification code in addition to your password.
+                                    </div>
+                                    
+                                    <button class="btn btn-outline">Configure 2FA</button>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Login Sessions</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="session-list">
+                                        <div class="session-item current">
+                                            <div class="session-info">
+                                                <div class="session-device">Chrome on Windows</div>
+                                                <div class="session-location">San Francisco, CA</div>
+                                                <div class="session-time">Current session</d
+(Content truncated due to size limit. Use line ranges to read in chunks)

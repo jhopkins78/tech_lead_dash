@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - Lead Commander</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Analytics - Comprehensive data analysis and visualization tools for your sales performance, lead metrics, and conversion rates.">
+</head>
+<body>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                Lead Commander
+            </div>
+            
+            <nav class="nav">
+                <a href="../index.html" class="nav-item">Dashboard</a>
+                <a href="leads.html" class="nav-item">Leads</a>
+                <a href="pipeline.html" class="nav-item">Pipeline</a>
+                <a href="analytics.html" class="nav-item active">Analytics</a>
+                <a href="market-signals.html" class="nav-item">Market Signals</a>
+                <a href="automation.html" class="nav-item">Automation</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search metrics, reports, dashboards...">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <div class="notification-badge">3</div>
+                    
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <div class="notification-title">Notifications</div>
+                            <div class="notification-actions">Mark all as read</div>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Weekly lead report is ready</div>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">🔥</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">High-priority lead assigned: John Smith from Acme Corp</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">📅</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Follow-up reminder: Call Sarah Johnson</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-footer">
+                            View all notifications
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+                
+                <button class="btn btn-primary" id="upload-btn">
+                    Import Leads
+                </button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JS</div>
+                    <div class="user-info">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Sales Manager</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Analytics</h1>
+                
+                <div class="header-actions">
+                    <div class="date-filter">
+                        <button class="date-filter-btn active">Month</button>
+                        <button class="date-filter-btn">Quarter</button>
+                        <button class="date-filter-btn">Year</button>
+                        <button class="date-filter-btn">Custom</button>
+                    </div>
+                    
+                    <button class="btn btn-outline">
+                        Export Report
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Performance Overview -->
+            <div class="grid">
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Total Leads</div>
+                        <div class="metric-value">247</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 15% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Conversion Rate</div>
+                        <div class="metric-value">24.8%</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 3.2% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Avg. Deal Size</div>
+                        <div class="metric-value">$28.5K</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 5.7% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Revenue</div>
+                        <div class="metric-value">$342K</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 12.3% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Performance Charts -->
+            <div class="grid">
+                <div class="col-8 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Lead Performance</div>
+                            <div class="card-actions">
+                                <div class="chart-type-toggle">
+                                    <button class="chart-type-btn active" data-chart="line">Line</button>
+                                    <button class="chart-type-btn" data-chart="bar">Bar</button>
+                                    <button class="chart-type-btn" data-chart="area">Area</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="lead-performance-chart"></canvas>
+                        </div>
+                        
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(72, 149, 239, 0.8);"></div>
+                                <div class="legend-label">New Leads</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(47, 196, 142, 0.8);"></div>
+                                <div class="legend-label">Qualified Leads</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 159, 64, 0.8);"></div>
+                                <div class="legend-label">Converted Leads</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-4 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Lead Sources</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="lead-source-chart"></canvas>
+                        </div>
+                        
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(72, 149, 239, 0.8);"></div>
+                                <div class="legend-label">Website (42%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(47, 196, 142, 0.8);"></div>
+                                <div class="legend-label">Referral (28%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 159, 64, 0.8);"></div>
+                                <div class="legend-label">Social Media (15%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 99, 132, 0.8);"></div>
+                                <div class="legend-label">Email Campaign (10%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(153, 102, 255, 0.8);"></div>
+                                <div class="legend-label">Event (5%)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Conversion by Industry</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="conversion-industry-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Sales Performance -->
+            <div class="grid">
+                <div class="col-6 col-lg-6 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Sales Performance</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Export</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="sales-performance-chart"></canvas>
+                        </div>
+                        
+                        <div class="performance-metrics">
+                            <div class="metric-row">
+                                <div class="metric-col">
+                                    <div class="metric-label">Total Revenue</div>
+                                    <div class="metric-value">$342,567</div>
+                                    <div class="metric-trend trend-up">↑ 12.3%</div>
+                                </div>
+                                <div class="metric-col">
+                                    <div class="metric-label">Deals Closed</div>
+                                    <div class="metric-value">28</div>
+                                    <div class="metric-trend trend-up">↑ 7.7%</div>
+                                </div>
+                                <div class="metric-col">
+                                    <div class="metric-label">Avg. Deal Cycle</div>
+                                    <div class="metric-value">32 days</div>
+                                    <div class="metric-trend trend-down">↓ 3.1%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-6 col-lg-6 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Sales Forecast</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Export</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="sales-forecast-chart"></canvas>
+                        </div>
+                        
+                        <div class="forecast-summary">
+                            <div class="forecast-period">
+                                <div class="period-label">Current Month</div>
+                                <div class="period-value">$125,000</div>
+                                <div class="period-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%;"></div>
+                                    </div>
+                                    <div class="progress-label">65% of target</div>
+                                </div>
+                            </div>
+                            
+                            <div class="forecast-period">
+                                <div class="period-label">Current Quarter</div>
+                                <div class="period-value">$385,000</div>
+                                <div class="period-progress">
+                                    <div c
+(Content truncated due to size limit. Use line ranges to read in chunks)

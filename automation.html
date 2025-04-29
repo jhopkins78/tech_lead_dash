@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automation Control Room - Lead Commander</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Favicon -->
+    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <meta name="description" content="Automation Control Room - Create, manage, and monitor automated workflows for lead nurturing, follow-ups, and task assignments.">
+</head>
+<body>
+    <!-- Main Dashboard Layout -->
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                Lead Commander
+            </div>
+            
+            <nav class="nav">
+                <a href="../index.html" class="nav-item">Dashboard</a>
+                <a href="leads.html" class="nav-item">Leads</a>
+                <a href="pipeline.html" class="nav-item">Pipeline</a>
+                <a href="analytics.html" class="nav-item">Analytics</a>
+                <a href="market-signals.html" class="nav-item">Market Signals</a>
+                <a href="automation.html" class="nav-item active">Automation</a>
+                <a href="settings.html" class="nav-item">Settings</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search automations, workflows, templates...">
+                    <div class="search-icon">🔍</div>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <div class="notification-badge">3</div>
+                    
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <div class="notification-title">Notifications</div>
+                            <div class="notification-actions">Mark all as read</div>
+                        </div>
+                        
+                        <div class="notification-list">
+                            <div class="notification-item">
+                                <div class="notification-icon">📊</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Weekly lead report is ready</div>
+                                    <div class="notification-time">10 minutes ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">🔥</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">High-priority lead assigned: John Smith from Acme Corp</div>
+                                    <div class="notification-time">1 hour ago</div>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-item">
+                                <div class="notification-icon">📅</div>
+                                <div class="notification-content">
+                                    <div class="notification-message">Follow-up reminder: Call Sarah Johnson</div>
+                                    <div class="notification-time">3 hours ago</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="notification-footer">
+                            View all notifications
+                        </div>
+                    </div>
+                </button>
+                
+                <button class="icon-btn" id="theme-toggle">🌙</button>
+                
+                <button class="btn btn-primary" id="upload-btn">
+                    Import Leads
+                </button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JS</div>
+                    <div class="user-info">
+                        <div class="user-name">John Smith</div>
+                        <div class="user-role">Sales Manager</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Automation Control Room</h1>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary">
+                        + Create Automation
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Automation Overview -->
+            <div class="grid">
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Active Automations</div>
+                        <div class="metric-value">18</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 3 new this month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Tasks Automated</div>
+                        <div class="metric-value">1,247</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 15% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Time Saved</div>
+                        <div class="metric-value">42h</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 8% from last month
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-3 col-lg-3 col-md-2 col-sm-1">
+                    <div class="metric-card">
+                        <div class="metric-title">Success Rate</div>
+                        <div class="metric-value">98.5%</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 1.2% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Active Automations -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Active Automations</div>
+                    <div class="card-actions">
+                        <div class="filter-dropdown">
+                            <button class="btn btn-sm btn-outline">Filter <span class="dropdown-icon">▼</span></button>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Show All
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Lead Nurturing
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Follow-up
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Task Assignment
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Data Enrichment
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">Automation Name</th>
+                            <th data-sort="type">Type</th>
+                            <th data-sort="trigger">Trigger</th>
+                            <th data-sort="created">Created</th>
+                            <th data-sort="runs">Runs (30d)</th>
+                            <th data-sort="success">Success Rate</th>
+                            <th data-sort="status">Status</th>
+                            <th data-sort="actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-value="name">New Lead Welcome Sequence</td>
+                            <td data-value="type">Lead Nurturing</td>
+                            <td data-value="trigger">New Lead Created</td>
+                            <td data-value="created" data-raw-value="20250601">Jun 1, 2025</td>
+                            <td data-value="runs" data-raw-value="156">156</td>
+                            <td data-value="success" data-raw-value="99.4">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 99.4%;"></div>
+                                    <div class="progress-text">99.4%</div>
+                                </div>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View History">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Follow-up Reminder</td>
+                            <td data-value="type">Follow-up</td>
+                            <td data-value="trigger">No Activity (7 days)</td>
+                            <td data-value="created" data-raw-value="20250615">Jun 15, 2025</td>
+                            <td data-value="runs" data-raw-value="98">98</td>
+                            <td data-value="success" data-raw-value="98.0">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 98%;"></div>
+                                    <div class="progress-text">98%</div>
+                                </div>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View History">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">High-Value Lead Assignment</td>
+                            <td data-value="type">Task Assignment</td>
+                            <td data-value="trigger">Lead Score > 80</td>
+                            <td data-value="created" data-raw-value="20250520">May 20, 2025</td>
+                            <td data-value="runs" data-raw-value="42">42</td>
+                            <td data-value="success" data-raw-value="100">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%;"></div>
+                                    <div class="progress-text">100%</div>
+                                </div>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View History">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Data Enrichment</td>
+                            <td data-value="type">Data Enrichment</td>
+                            <td data-value="trigger">New Lead Created</td>
+                            <td data-value="created" data-raw-value="20250510">May 10, 2025</td>
+                            <td data-value="runs" data-raw-value="156">156</td>
+                            <td data-value="success" data-raw-value="95.5">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95.5%;"></div>
+                                    <div class="progress-text">95.5%</div>
+                                </div>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View History">📊</button>
+                                    <button class="action-btn" title="De
+(Content truncated due to size limit. Use line ranges to read in chunks)

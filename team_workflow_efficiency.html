@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lead Commander - Team & Workflow Efficiency</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-light: #4895ef;
+            --secondary: #3f37c9;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --info: #90e0ef;
+            --dark: #1e1e2c;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --gray-light: #dee2e6;
+            --gray-dark: #343a40;
+            --body-bg: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-muted: #6c757d;
+            --border-color: #e9ecef;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            --radius: 8px;
+            --transition: all 0.2s ease-in-out;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--body-bg);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-rows: 60px 1fr;
+            grid-template-columns: 1fr;
+            height: 100vh;
+        }
+
+        /* Header Styles */
+        .header {
+            grid-row: 1;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow);
+            z-index: 100;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 8px;
+            background-color: var(--primary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-item {
+            font-weight: 500;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary);
+        }
+
+        .nav-item:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .search-bar {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 8px 16px 8px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--gray-light);
+            background-color: var(--light);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: transparent;
+            border: none;
+            color: var(--gray-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .icon-btn:hover {
+            background-color: var(--gray-light);
+        }
+
+        .notification-btn {
+            position: relative;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--danger);
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: var(--radius);
+            transition: var(--transition);
+        }
+
+        .user-profile:hover {
+            background-color: var(--gray-light);
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        @media (min-width: 768px) {
+            .user-info {
+                display: block;
+            }
+        }
+
+        .user-name {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            grid-row: 2;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .page-title {
+            margin-bottom: 24px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--gray-light);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--gray-light);
+        }
+
+        .date-filter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 4px;
+            border: 1px solid var(--gray-light);
+        }
+
+        .date-filter-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            background-color: transparent;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .date-filter-btn.active {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+
+        /* Productivity Metrics */
+        .metrics-card {
+            grid-column: span 12;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .metrics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .metrics-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .metrics-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+
+        .metric-item {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .metric-trend {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .trend-up {
+            color: #10b981;
+        }
+
+        .trend-down {
+            color: var(--danger);
+        }
+
+        .trend-icon {
+            margin-right: 4px;
+        }
+
+        /* Team Leaderboard */
+        .leaderboard-card {
+            grid-column: span 6;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .leaderboard-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .leaderboard-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .leaderboard-table th {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .leaderboard-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rep-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .rep-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .rep-name {
+            font-weight: 500;
+        }
+
+        .rep-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .rep-score {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--gray-light);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 3px;
+        }
+
+        /* Activity Reports */
+        .activity-card {
+            grid-column: span 6;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .activity-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .activity-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .activity-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .activity-chart {
+            height: 300px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 16px;
+        }
+
+        .activity-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .activity-stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        /* AI Suggestions */
+        .suggestions-card {
+            grid-column: span 6;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .suggestions-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .suggestions-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .suggestions-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+        }
+
+        .suggestion-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .suggestion-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: rgba(67, 97, 238, 0.1);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        .suggestion-content {
+            flex: 1;
+        }
+
+        .suggestion-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .suggestion-description {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .suggestion-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* Smart Alerts */
+        .alerts-card {
+            grid-column: span 6;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .alerts-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .alerts-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .alerts-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 16px;
+            background-color: var(--light);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            border-left: 4px solid var(--danger);
+        }
+
+        .alert-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .alert-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: rgba(247, 37, 133, 0.1);
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 20px;
+        }
+
+        .alert-content {
+            flex: 1;
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .alert-description {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+        .alert-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .alert-medium {
+            border-left-color: var(--warning);
+        }
+
+        .alert-medium .alert-icon {
+            background-color: rgba(248, 150, 30, 0.1);
+            color: var(--warning);
+        }
+
+        .alert-low {
+            border-left-color: var(--info);
+        }
+
+        .alert-low .alert-icon {
+            background-color: rgba(76, 201, 240, 0.1);
+            color: var(--info);
+        }
+
+        /* Coaching Insights */
+        .coaching-card {
+            grid-column: span 12;
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        .coaching-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .coaching-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .coaching-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .coaching-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .coaching-item {
+            background-color: var(--light);
+            border-radius: var(--radius);
+            padding: 20px;
+        }
+
+        .coaching-rep {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .coaching-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .coaching-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .coaching-role {
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .coaching-insight {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .coaching-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .coaching-metric {
+            text-align: center;
+        }
+
+        .coaching-metric-value {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .coaching-metric-label {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .dashboard-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+
+            .leaderboard-card,
+            .activity-card,
+            .suggestions-card,
+            .alerts-card {
+                grid-column: span 6;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .leaderboard-card,
+            .activity-card,
+            .suggestions-card,
+            .alerts-card {
+                grid-column: span 1;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .activity-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+        }
+
+        /* Dark Mode Styles */
+        .dark-mode {
+            --body-bg: #121212;
+            --card-bg: #1e1e2c;
+            --text-main: #e9ecef;
+            --text-muted: #adb5bd;
+            --border-color: #2d2d3a;
+            --gray-light: #2d2d3a;
+            --light: #2d2d3a;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">LC</div>
+                <span>Lead Commander</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="#" class="nav-item">Dashboard</a>
+                <a href="#" class="nav-item">Leads</a>
+                <a href="#" class="nav-item">Pipeline</a>
+                <a href="#" class="nav-item">Market</a>
+                <a href="#" class="nav-item active">Team</a>
+                <a href="#" class="nav-item">Automation</a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-bar">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" placeholder="Search team members, activities...">
+                </div>
+                
+                <button class="icon-btn notification-btn">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </button>
+                
+                <button class="icon-btn">⚙️</button>
+                
+                <div class="user-profile">
+                    <div class="avatar">JD</div>
+                    <div class="user-info">
+                        <div class="user-name">John Doe</div>
+                        <div class="user-role">Sales Director</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="content-header">
+                <h1 class="page-title">Team & Workflow Efficiency</h1>
+                
+                <div class="header-actions">
+                    <div class="date-filter">
+                        <button class="date-filter-btn">Week</button>
+                        <button class="date-filter-btn active">Month</button>
+                        <button class="date-filter-btn">Quarter</button>
+                        <button class="date-filter-btn">Year</button>
+                    </div>
+                    
+                    <button class="btn btn-outline">Export</button>
+                    <button class="btn btn-primary">Team Settings</button>
+                </div>
+            </div>
+            
+            <!-- Productivity Metrics -->
+            <div class="metrics-card">
+                <div class="metrics-header">
+                    <h2 class="metrics-title">Productivity Metrics</h2>
+                    
+                    <div class="metrics-actions">
+                        <button class="btn btn-sm btn-outline">Compare</button>
+                        <button class="btn btn-sm btn-outline">Details</button>
+                    </div>
+                </div>
+                
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-value">4.2h</div>
+                        <div class="metric-label">Avg. Lead Response Time</div>
+                        <div class="metric-trend trend-down">
+                            <span class="trend-icon">↓</span> 15% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-value">92%</div>
+                        <div class="metric-label">Follow-up Consistency</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 8% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-value">18.5</div>
+                        <div class="metric-label">Avg. Leads Contacted/Day</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 12% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-value">85%</div>
+                        <div class="metric-label">Task Completion Rate</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 5% from last month
+                        </div>
+                    </div>
+                    
+                    <div class="metric-item">
+                        <div class="metric-value">24.8%</div>
+                        <div class="metric-label">Lead Conversion Rate</div>
+                        <div class="metric-trend trend-up">
+                            <span class="trend-icon">↑</span> 3.2% from last month
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Team Leaderboard -->
+                <div class="leaderboard-card">
+                    <div class="leaderboard-header">
+                        <h2 class="leaderboard-title">Team Leaderboard</h2>
+                        
+                        <div class="leaderboard-actions">
+                            <button class="btn btn-sm btn-outline">Filter</button>
+                        </div>
+                    </div>
+                    
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rep</th>
+                                <th>Score</th>
+                                <th>Progress</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="rep-info">
+                                        <div class="rep-avatar">SJ</div>
+                                        <div>
+                                            <div class="rep-name">Sarah Johnson</div>
+                                            <div class="rep-role">Senior Sales Rep</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="rep-score">94</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: 94%;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="rep-info">
+                                        <div class="rep-avatar">MC</div>
+                                        <div>
+                                            <div class="rep-name">Michael Chen</div>
+                                            <div class="rep-role">Sales Rep</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="rep-score">87</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: 87%;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="rep-info">
+                                        <div class="rep-avatar">ER</div>
+                                        <div>
+                                            <div class="rep-name">Emily Rodriguez</div>
+                                            <div class="rep-role">Sales Rep</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="rep-score">82</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: 82%;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="rep-info">
+                                        <div class="rep-avatar">DW</div>
+                                        <div>
+                                            <div class="rep-name">David Wilson</div>
+                                            <div class="rep-role">Sales Rep</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="rep-score">78</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: 78%;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td>
+                                    <div class="rep-info">
+                                        <div class="rep-avatar">JL</div>
+                                        <div>
+                                            <div class="rep-name">Jennifer Lee</div>
+                                            <div class="rep-role">Junior Sales Rep</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="rep-score">65</td>
+                                <td>
+                                    <div class="progress-bar-container">
+                                        <div class="progress-bar" style="width: 65%;"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Activity Reports -->
+                <div class="activity-card">
+                    <div class="activity-header">
+                        <h2 class="activity-title">Activity Reports</h2>
+                        
+                        <div class="activity-actions">
+                            <button class="btn btn-sm btn-outline">Details</button>
+                        </div>
+                    </div>
+                    
+                    <div class="activity-chart">
+                        [Activity Chart - Line chart showing team activity trends over time]
+                    </div>
+                    
+                    <div class="activity-stats">
+                        <div class="activity-stat">
+                            <div class="stat-value">1,247</div>
+                            <div class="stat-label">Total Activities</div>
+                        </div>
+                        
+                        <div class="activity-stat">
+                            <div class="stat-value">428</div>
+                            <div class="stat-label">Calls Made</div>
+                        </div>
+                        
+                        <div class="activity-stat">
+                            <div class="stat-value">819</div>
+                            <div class="stat-label">Emails Sent</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- AI Suggestions -->
+                <div class="suggestions-card">
+                    <div class="suggestions-header">
+                        <h2 class="suggestions-title">AI Suggestions</h2>
+                        
+                        <div class="suggestions-actions">
+                            <button class="btn btn-sm btn-outline">Refresh</button>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">🔄</div>
+                        <div class="suggestion-content">
+                            <div class="suggestion-title">Reassign Leads from David to Sarah</div>
+                            <div class="suggestion-description">
+                                David Wilson is currently handling 35% more leads than optimal capacity, while Sarah Johnson has bandwidth for additional leads. Consider reassigning 12 leads to balance workload.
+                            </div>
+                            <div class="suggestion-actions">
+                                <button class="btn btn-sm btn-outline">Ignore</button>
+                                <button class="btn btn-sm btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">📊</div>
+                        <div class="suggestion-content">
+                            <div class="suggestion-title">Optimize Follow-up Schedule</div>
+                            <div class="suggestion-description">
+                                Team follow-up consistency drops by 22% on Fridays. Consider implementing automated follow-up reminders or adjusting task distribution to maintain consistent engagement.
+                            </div>
+                            <div class="suggestion-actions">
+                                <button class="btn btn-sm btn-outline">Ignore</button>
+                                <button class="btn btn-sm btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="suggestion-item">
+                        <div class="suggestion-icon">👥</div>
+                        <div class="suggestion-content">
+                            <div class="suggestion-title">Team Training Opportunity</div>
+                            <div class="suggestion-description">
+                                3 team members show below-average performance in qualifying leads. Consider targeted training on qualification techniques to improve conversion rates.
+                            </div>
+                            <div class="suggestion-actions">
+                                <button class="btn btn-sm btn-outline">Ignore</button>
+                                <button class="btn btn-sm btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Smart Alerts -->
+                <div class="alerts-card">
+                    <div class="alerts-header">
+                        <h2 class="alerts-title">Smart Alerts</h2>
+                        
+                        <div class="alerts-actions">
+                            <button class="btn btn-sm btn-outline">Mark All Read</button>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-item">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Response Time Threshold Exceeded</div>
+                            <div class="alert-description">
+                                Average lead response time has exceeded the 4-hour threshold for 3 consecutive days. This may impact conversion rates.
+                            </div>
+                            <div class="alert-actions">
+                                <button class="btn btn-sm btn-outline">Dismiss</button>
+                                <button class="btn btn-sm btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-item alert-medium">
+                        <div class="alert-icon">⚠️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Workflow Bottleneck Detected</div>
+                            <div class="alert-description">
+                                12 leads are awaiting qualification for more than 48 hours. Consider redistributing tasks to prevent pipeline stagnation.
+                            </div>
+                            <div class="alert-actions">
+                                <button class="btn btn-sm btn-outline">Dismiss</button>
+                                <button class="btn btn-sm btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="alert-item alert-low">
+                        <div class="alert-icon">ℹ️</div>
+                        <div class="alert-content">
+                            <div class="alert-title">Team Member Performance Change</div>
+                            <div class="alert-description">
+                                Jennifer Lee's performance score has improved by 15% in the last 2 weeks. Consider reviewing her strategies for team-wide adoption.
+                            </div>
+                            <div class="alert-actions">
+                                <button class="btn btn-sm btn-outline">Dismiss</button>
+                                <button class="btn btn-sm btn-primary">View Details</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Coaching Insights -->
+                <div class="coaching-card">
+                    <div class="coaching-header">
+                        <h2 class="coaching-title">Coaching Insights</h2>
+                        
+                        <div class="coaching-actions">
+                            <button class="btn btn-sm btn-outline">View All</button>
+                        </div>
+                    </div>
+                    
+                    <div class="coaching-grid">
+                        <div class="coaching-item">
+                            <div class="coaching-rep">
+                                <div class="coaching-avatar">SJ</div>
+                                <div>
+                                    <div class="coaching-name">Sarah Johnson</div>
+                                    <div class="coaching-role">Senior Sales Rep</div>
+                                </div>
+                            </div>
+                            
+                            <div class="coaching-insight">
+                                Sarah excels at lead qualification with a 92% accuracy rate. Her approach to discovery calls could be documented and shared as a best practice for the team. Consider pairing her with newer team members for mentoring.
+                            </div>
+                            
+                            <div class="coaching-metrics">
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">92%</div>
+                                    <div class="coaching-metric-label">Qualification Accuracy</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">3.1h</div>
+                                    <div class="coaching-metric-label">Avg. Response Time</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">32%</div>
+                                    <div class="coaching-metric-label">Conversion Rate</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">98%</div>
+                                    <div class="coaching-metric-label">Follow-up Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="coaching-item">
+                            <div class="coaching-rep">
+                                <div class="coaching-avatar">JL</div>
+                                <div>
+                                    <div class="coaching-name">Jennifer Lee</div>
+                                    <div class="coaching-role">Junior Sales Rep</div>
+                                </div>
+                            </div>
+                            
+                            <div class="coaching-insight">
+                                Jennifer shows strong improvement in follow-up consistency, increasing from 68% to 85% in the past month. Her challenge area remains lead qualification, where additional training could help improve her 62% accuracy rate.
+                            </div>
+                            
+                            <div class="coaching-metrics">
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">62%</div>
+                                    <div class="coaching-metric-label">Qualification Accuracy</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">5.4h</div>
+                                    <div class="coaching-metric-label">Avg. Response Time</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">18%</div>
+                                    <div class="coaching-metric-label">Conversion Rate</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">85%</div>
+                                    <div class="coaching-metric-label">Follow-up Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="coaching-item">
+                            <div class="coaching-rep">
+                                <div class="coaching-avatar">MC</div>
+                                <div>
+                                    <div class="coaching-name">Michael Chen</div>
+                                    <div class="coaching-role">Sales Rep</div>
+                                </div>
+                            </div>
+                            
+                            <div class="coaching-insight">
+                                Michael demonstrates excellent response time (2.8h average) and strong follow-up consistency. His opportunity area is in deal size optimization, as his average deal size is 15% below team average despite similar conversion rates.
+                            </div>
+                            
+                            <div class="coaching-metrics">
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">87%</div>
+                                    <div class="coaching-metric-label">Qualification Accuracy</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">2.8h</div>
+                                    <div class="coaching-metric-label">Avg. Response Time</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">28%</div>
+                                    <div class="coaching-metric-label">Conversion Rate</div>
+                                </div>
+                                
+                                <div class="coaching-metric">
+                                    <div class="coaching-metric-value">94%</div>
+                                    <div class="coaching-metric-label">Follow-up Rate</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

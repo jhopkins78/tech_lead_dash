@@ -1,0 +1,104 @@
+{
+  "marketSignals": [
+    {
+      "id": "MS001",
+      "title": "Tech Industry Facing Supply Chain Disruptions",
+      "source": "TechCrunch",
+      "date": "2025-04-18",
+      "summary": "Major tech companies are reporting significant supply chain disruptions due to ongoing global logistics challenges.",
+      "impact": "High",
+      "relevantCompanies": ["Acme Corporation", "Stark Industries", "Cyberdyne Systems"],
+      "tags": ["Supply Chain", "Technology", "Global Markets"]
+    },
+    {
+      "id": "MS002",
+      "title": "New Marketing Automation Trends for 2025",
+      "source": "MarketingWeek",
+      "date": "2025-04-15",
+      "summary": "Report highlights emerging trends in marketing automation, with AI-driven personalization leading adoption rates.",
+      "impact": "Medium",
+      "relevantCompanies": ["Globex Inc", "Soylent Corp"],
+      "tags": ["Marketing", "Automation", "AI"]
+    },
+    {
+      "id": "MS003",
+      "title": "Healthcare Sector Investing Heavily in Data Security",
+      "source": "HealthTech Today",
+      "date": "2025-04-17",
+      "summary": "Healthcare organizations are increasing cybersecurity budgets by an average of 35% in response to recent data breaches.",
+      "impact": "High",
+      "relevantCompanies": ["Umbrella Corp", "Massive Dynamic"],
+      "tags": ["Healthcare", "Cybersecurity", "Compliance"]
+    },
+    {
+      "id": "MS004",
+      "title": "Financial Services Embracing Cloud Solutions",
+      "source": "FinTech Insider",
+      "date": "2025-04-16",
+      "summary": "Major financial institutions are accelerating cloud migration strategies to improve scalability and reduce infrastructure costs.",
+      "impact": "Medium",
+      "relevantCompanies": ["Wayne Enterprises", "Initech"],
+      "tags": ["Finance", "Cloud Computing", "Digital Transformation"]
+    },
+    {
+      "id": "MS005",
+      "title": "Regulatory Changes Impacting Software Compliance",
+      "source": "Compliance Today",
+      "date": "2025-04-19",
+      "summary": "New regulations set to take effect in Q3 2025 will require additional compliance measures for software vendors.",
+      "impact": "High",
+      "relevantCompanies": ["Acme Corporation", "Oscorp Industries", "Stark Industries"],
+      "tags": ["Compliance", "Regulation", "Software"]
+    },
+    {
+      "id": "MS006",
+      "title": "Remote Work Driving Demand for Collaboration Tools",
+      "source": "WorkTech News",
+      "date": "2025-04-14",
+      "summary": "Companies are increasing investments in collaboration platforms as hybrid work models become permanent fixtures.",
+      "impact": "Medium",
+      "relevantCompanies": ["Globex Inc", "Wayne Enterprises", "Initech"],
+      "tags": ["Remote Work", "Collaboration", "Workplace"]
+    },
+    {
+      "id": "MS007",
+      "title": "Manufacturing Sector Adopting IoT at Rapid Pace",
+      "source": "Industry 4.0 Report",
+      "date": "2025-04-13",
+      "summary": "Manufacturing companies are deploying IoT solutions to improve operational efficiency and predictive maintenance.",
+      "impact": "Medium",
+      "relevantCompanies": ["Stark Industries", "Cyberdyne Systems"],
+      "tags": ["Manufacturing", "IoT", "Automation"]
+    },
+    {
+      "id": "MS008",
+      "title": "AI Ethics Guidelines Published by Industry Consortium",
+      "source": "AI Business",
+      "date": "2025-04-12",
+      "summary": "Leading tech companies have established new ethical guidelines for AI development and deployment.",
+      "impact": "Low",
+      "relevantCompanies": ["Massive Dynamic", "Cyberdyne Systems"],
+      "tags": ["AI", "Ethics", "Governance"]
+    },
+    {
+      "id": "MS009",
+      "title": "E-commerce Growth Slowing After Pandemic Surge",
+      "source": "Retail Dive",
+      "date": "2025-04-11",
+      "summary": "E-commerce growth rates are normalizing after the pandemic-driven acceleration, but remain above pre-pandemic levels.",
+      "impact": "Medium",
+      "relevantCompanies": ["Soylent Corp", "Oscorp Industries"],
+      "tags": ["E-commerce", "Retail", "Consumer Trends"]
+    },
+    {
+      "id": "MS010",
+      "title": "Sustainability Becoming Key Factor in B2B Purchasing Decisions",
+      "source": "Sustainable Business",
+      "date": "2025-04-10",
+      "summary": "B2B buyers are increasingly considering sustainability practices when selecting vendors and partners.",
+      "impact": "Medium",
+      "relevantCompanies": ["Acme Corporation", "Wayne Enterprises", "Umbrella Corp"],
+      "tags": ["Sustainability", "B2B", "Corporate Responsibility"]
+    }
+  ]
+}
