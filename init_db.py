@@ -1,10 +1,17 @@
 import os
 import sys
+import platform
 from datetime import datetime, timedelta
 import random
 from werkzeug.security import generate_password_hash
 import sqlite3
 import json
+
+# Check Python version
+if sys.version_info < (3, 10):
+    print("Error: Python 3.10 or higher is required.")
+    print(f"Current Python version: {platform.python_version()}")
+    sys.exit(1)
 
 # Add the current directory to the path so we can import the app
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))

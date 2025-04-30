@@ -3,11 +3,19 @@ Test script for the Lead Commander API
 
 This script tests the basic functionality of the Lead Commander API.
 It assumes the Flask application is running on http://localhost:5000.
+Requires Python 3.10 or higher.
 """
 
 import requests
 import json
 import sys
+import platform
+
+# Check Python version
+if sys.version_info < (3, 10):
+    print("Error: Python 3.10 or higher is required.")
+    print(f"Current Python version: {platform.python_version()}")
+    sys.exit(1)
 
 BASE_URL = 'http://localhost:5000/api'
 SESSION = requests.Session()

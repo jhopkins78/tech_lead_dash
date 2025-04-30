@@ -1,15 +1,30 @@
+import os
+import sys
+import json
+import uuid
+import logging
+import platform
+from datetime import datetime, timedelta
+
+# Check Python version
+if sys.version_info < (3, 10):
+    print("Error: Python 3.10 or higher is required.")
+    print(f"Current Python version: {platform.python_version()}")
+    sys.exit(1)
+
 from flask import Flask, render_template, request, jsonify, redirect, url_for, session, flash, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
-import os
-import json
-import pandas as pd
-import sqlite3
-from datetime import datetime, timedelta
-import uuid
-import logging
+
+# Import pandas conditionally to handle environments where it might not be available
+try:
+    import pandas as pd
+    PANDAS_AVAILABLE = True
+except ImportError:
+    PANDAS_AVAILABLE = False
+    logging.warning("pandas not available. File upload functionality will be limited to CSV files.")
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

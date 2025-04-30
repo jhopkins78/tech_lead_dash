@@ -3,12 +3,20 @@
 Run script for Lead Commander
 
 This script provides a simple way to initialize the database and run the application.
+Requires Python 3.10 or higher.
 """
 
 import os
 import sys
 import argparse
 import subprocess
+import platform
+
+# Check Python version
+if sys.version_info < (3, 10):
+    print("Error: Python 3.10 or higher is required.")
+    print(f"Current Python version: {platform.python_version()}")
+    sys.exit(1)
 
 def setup_environment():
     """Check if virtual environment exists, create if not"""
