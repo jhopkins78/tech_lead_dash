@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Automation Control Room - Lead Commander</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./main.css">
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Favicon -->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="description" content="Automation Control Room - Create, manage, and monitor automated workflows for lead nurturing, follow-ups, and task assignments.">
 </head>
 <body>
@@ -296,5 +296,323 @@
                                     <button class="action-btn" title="Edit">✏️</button>
                                     <button class="action-btn" title="Pause">⏸️</button>
                                     <button class="action-btn" title="View History">📊</button>
-                                    <button class="action-btn" title="De
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Meeting Scheduler</td>
+                            <td data-value="type">Task Assignment</td>
+                            <td data-value="trigger">Lead Status = Qualified</td>
+                            <td data-value="created" data-raw-value="20250505">May 5, 2025</td>
+                            <td data-value="runs" data-raw-value="78">78</td>
+                            <td data-value="success" data-raw-value="97.4">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 97.4%;"></div>
+                                    <div class="progress-text">97.4%</div>
+                                </div>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge paused">Paused</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Resume">▶️</button>
+                                    <button class="action-btn" title="View History">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Automation Performance -->
+            <div class="grid">
+                <div class="col-8 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Automation Performance</div>
+                            <div class="card-actions">
+                                <div class="date-filter">
+                                    <button class="date-filter-btn active">Month</button>
+                                    <button class="date-filter-btn">Quarter</button>
+                                    <button class="date-filter-btn">Year</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="automation-performance-chart"></canvas>
+                        </div>
+                        
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(72, 149, 239, 0.8);"></div>
+                                <div class="legend-label">Tasks Automated</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(47, 196, 142, 0.8);"></div>
+                                <div class="legend-label">Success Rate</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 159, 64, 0.8);"></div>
+                                <div class="legend-label">Time Saved (hours)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-4 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Automation Alerts</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">View All</button>
+                            </div>
+                        </div>
+                        
+                        <div class="alerts-list">
+                            <div class="alert-item">
+                                <div class="alert-icon">⚠️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">API Rate Limit Warning</div>
+                                    <div class="alert-description">
+                                        CRM API usage at 85% of daily limit. May affect Data Enrichment workflow.
+                                    </div>
+                                    <div class="alert-meta">
+                                        <div class="alert-time">2 hours ago</div>
+                                        <div class="alert-severity severity-medium">Medium</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-item">
+                                <div class="alert-icon">⚠️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Workflow Error</div>
+                                    <div class="alert-description">
+                                        Meeting Scheduler workflow encountered 3 errors in the last 24 hours.
+                                    </div>
+                                    <div class="alert-meta">
+                                        <div class="alert-time">1 day ago</div>
+                                        <div class="alert-severity severity-high">High</div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="alert-item">
+                                <div class="alert-icon">ℹ️</div>
+                                <div class="alert-content">
+                                    <div class="alert-title">Optimization Opportunity</div>
+                                    <div class="alert-description">
+                                        Follow-up Reminder workflow could be optimized for 15% better performance.
+                                    </div>
+                                    <div class="alert-meta">
+                                        <div class="alert-time">3 days ago</div>
+                                        <div class="alert-severity severity-low">Low</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Automation Types</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="automation-types-chart"></canvas>
+                        </div>
+                        
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(72, 149, 239, 0.8);"></div>
+                                <div class="legend-label">Lead Nurturing (42%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(47, 196, 142, 0.8);"></div>
+                                <div class="legend-label">Follow-up (28%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 159, 64, 0.8);"></div>
+                                <div class="legend-label">Task Assignment (18%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 99, 132, 0.8);"></div>
+                                <div class="legend-label">Data Enrichment (12%)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Automation Templates -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Automation Templates</div>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                </div>
+                
+                <div class="templates-grid">
+                    <div class="template-card">
+                        <div class="template-icon">📧</div>
+                        <div class="template-content">
+                            <div class="template-title">Lead Nurturing Sequence</div>
+                            <div class="template-description">
+                                Automated email sequence to nurture leads through the sales funnel with personalized content.
+                            </div>
+                            <div class="template-meta">
+                                <div class="template-complexity">
+                                    <span>Complexity:</span>
+                                    <div class="complexity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                </div>
+                                <div class="template-steps">4 steps</div>
+                            </div>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-outline">Preview</button>
+                                <button class="btn btn-sm btn-primary">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">📊</div>
+                        <div class="template-content">
+                            <div class="template-title">Lead Scoring Model</div>
+                            <div class="template-description">
+                                Automatically score leads based on demographic data, behavior, and engagement metrics.
+                            </div>
+                            <div class="template-meta">
+                                <div class="template-complexity">
+                                    <span>Complexity:</span>
+                                    <div class="complexity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                    </div>
+                                </div>
+                                <div class="template-steps">6 steps</div>
+                            </div>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-outline">Preview</button>
+                                <button class="btn btn-sm btn-primary">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">📅</div>
+                        <div class="template-content">
+                            <div class="template-title">Meeting Scheduler</div>
+                            <div class="template-description">
+                                Automate meeting scheduling with qualified leads based on rep availability and lead preferences.
+                            </div>
+                            <div class="template-meta">
+                                <div class="template-complexity">
+                                    <span>Complexity:</span>
+                                    <div class="complexity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                </div>
+                                <div class="template-steps">5 steps</div>
+                            </div>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-outline">Preview</button>
+                                <button class="btn btn-sm btn-primary">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="template-card">
+                        <div class="template-icon">🔔</div>
+                        <div class="template-content">
+                            <div class="template-title">Lead Alert System</div>
+                            <div class="template-description">
+                                Send real-time notifications to sales reps when high-value leads take specific actions.
+                            </div>
+                            <div class="template-meta">
+                                <div class="template-complexity">
+                                    <span>Complexity:</span>
+                                    <div class="complexity-dots">
+                                        <div class="dot active"></div>
+                                        <div class="dot"></div>
+                                        <div class="dot"></div>
+                                    </div>
+                                </div>
+                                <div class="template-steps">3 steps</div>
+                            </div>
+                            <div class="template-actions">
+                                <button class="btn btn-sm btn-outline">Preview</button>
+                                <button class="btn btn-sm btn-primary">Use Template</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- CSS Diagnostic Test Element -->
+    <div style="background-color: red; padding: 20px; margin: 20px; border: 3px solid blue; color: white;">
+      If you can see this box with red background and blue border, CSS is working.
+    </div>
+    
+    <!-- CSS Loading Diagnostic Script -->
+    <script>
+      // Check if stylesheets are loading
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('=== CSS LOADING DIAGNOSTIC ===');
+        
+        // Get all stylesheet links
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        
+        // Log each stylesheet
+        stylesheets.forEach(function(sheet, index) {
+          console.log(`Stylesheet ${index + 1}:`, {
+            href: sheet.href,
+            loaded: sheet.sheet ? 'SUCCESS' : 'FAILED'
+          });
+        });
+        
+        // Check if any inline styles exist
+        const inlineStyles = document.querySelectorAll('style');
+        console.log(`Found ${inlineStyles.length} inline style elements`);
+        
+        // Check computed styles of a key element to verify CSS application
+        const testElement = document.querySelector('.card') || document.querySelector('.dashboard');
+        if (testElement) {
+          const styles = window.getComputedStyle(testElement);
+          console.log('Test element styles:', {
+            element: testElement.tagName + '.' + testElement.className,
+            backgroundColor: styles.backgroundColor,
+            borderRadius: styles.borderRadius,
+            boxShadow: styles.boxShadow
+          });
+        } else {
+          console.log('Could not find test element to check styles');
+        }
+        
+        console.log('=== END CSS DIAGNOSTIC ===');
+      });
+    </script>
+    
+    <script>
+        // Chart initialization would be implemented here
+        // This would include creating and configuring the various charts using Chart.js
+    </script>
+</body>
+</html>

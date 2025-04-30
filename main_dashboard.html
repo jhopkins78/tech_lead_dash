@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lead Commander - Executive Dashboard</title>
 
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="./main.css">
     
 </head>
 <body>
@@ -439,6 +439,11 @@
         </div>
     </div>
     
+    <!-- CSS Diagnostic Test Element -->
+    <div style="background-color: red; padding: 20px; margin: 20px; border: 3px solid blue; color: white;">
+      If you can see this box with red background and blue border, CSS is working.
+    </div>
+    
     <script>
         // Simple toggle for dark mode (for demonstration)
         function toggleDarkMode() {
@@ -454,6 +459,45 @@
         function hideUploadModal() {
             document.querySelector('.modal-overlay').style.display = 'none';
         }
+    </script>
+    
+    <!-- CSS Loading Diagnostic Script -->
+    <script>
+      // Check if stylesheets are loading
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('=== CSS LOADING DIAGNOSTIC ===');
+        
+        // Get all stylesheet links
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        
+        // Log each stylesheet
+        stylesheets.forEach(function(sheet, index) {
+          console.log(`Stylesheet ${index + 1}:`, {
+            href: sheet.href,
+            loaded: sheet.sheet ? 'SUCCESS' : 'FAILED'
+          });
+        });
+        
+        // Check if any inline styles exist
+        const inlineStyles = document.querySelectorAll('style');
+        console.log(`Found ${inlineStyles.length} inline style elements`);
+        
+        // Check computed styles of a key element to verify CSS application
+        const testElement = document.querySelector('.card') || document.querySelector('.dashboard');
+        if (testElement) {
+          const styles = window.getComputedStyle(testElement);
+          console.log('Test element styles:', {
+            element: testElement.tagName + '.' + testElement.className,
+            backgroundColor: styles.backgroundColor,
+            borderRadius: styles.borderRadius,
+            boxShadow: styles.boxShadow
+          });
+        } else {
+          console.log('Could not find test element to check styles');
+        }
+        
+        console.log('=== END CSS DIAGNOSTIC ===');
+      });
     </script>
 </body>
 </html>

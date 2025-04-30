@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings - Lead Commander</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./main.css">
     <!-- Favicon -->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="description" content="Settings - Configure your Lead Commander dashboard preferences, user profile, notifications, and integrations.">
 </head>
 <body>
@@ -278,5 +278,260 @@
                                             <div class="session-info">
                                                 <div class="session-device">Chrome on Windows</div>
                                                 <div class="session-location">San Francisco, CA</div>
-                                                <div class="session-time">Current session</d
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                                                <div class="session-time">Current session</div>
+                                            </div>
+                                            <div class="session-actions">
+                                                <button class="btn btn-sm btn-outline" disabled>End Session</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="session-item">
+                                            <div class="session-info">
+                                                <div class="session-device">Safari on iPhone</div>
+                                                <div class="session-location">San Francisco, CA</div>
+                                                <div class="session-time">2 hours ago</div>
+                                            </div>
+                                            <div class="session-actions">
+                                                <button class="btn btn-sm btn-outline">End Session</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="session-item">
+                                            <div class="session-info">
+                                                <div class="session-device">Firefox on MacOS</div>
+                                                <div class="session-location">San Francisco, CA</div>
+                                                <div class="session-time">Yesterday</div>
+                                            </div>
+                                            <div class="session-actions">
+                                                <button class="btn btn-sm btn-outline">End Session</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <button class="btn btn-outline">End All Other Sessions</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Notifications Section -->
+                    <div class="settings-section" id="notifications">
+                        <div class="section-header">
+                            <h2 class="section-title">Notification Settings</h2>
+                            <button class="btn btn-primary">Save Changes</button>
+                        </div>
+                        
+                        <div class="notification-settings">
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Email Notifications</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">New Lead Assigned</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Lead Status Change</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Task Due Reminder</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Weekly Reports</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Marketing Campaigns</div>
+                                        <label class="toggle">
+                                            <input type="checkbox">
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">In-App Notifications</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">New Lead Assigned</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Lead Status Change</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Task Due Reminder</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Team Activity</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">System Updates</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="settings-card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Notification Schedule</h3>
+                                </div>
+                                <div class="card-content">
+                                    <div class="form-group">
+                                        <label for="notification-schedule">Do Not Disturb Hours</label>
+                                        <div class="time-range">
+                                            <select id="dnd-start" class="form-control">
+                                                <option value="18">6:00 PM</option>
+                                                <option value="19">7:00 PM</option>
+                                                <option value="20" selected>8:00 PM</option>
+                                                <option value="21">9:00 PM</option>
+                                                <option value="22">10:00 PM</option>
+                                            </select>
+                                            <span class="time-separator">to</span>
+                                            <select id="dnd-end" class="form-control">
+                                                <option value="6">6:00 AM</option>
+                                                <option value="7" selected>7:00 AM</option>
+                                                <option value="8">8:00 AM</option>
+                                                <option value="9">9:00 AM</option>
+                                                <option value="10">10:00 AM</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Enable Do Not Disturb</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="toggle-setting">
+                                        <div class="toggle-label">Allow Priority Notifications During DND</div>
+                                        <label class="toggle">
+                                            <input type="checkbox" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other settings sections would be implemented similarly -->
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- CSS Diagnostic Test Element -->
+    <div style="background-color: red; padding: 20px; margin: 20px; border: 3px solid blue; color: white;">
+      If you can see this box with red background and blue border, CSS is working.
+    </div>
+    
+    <!-- CSS Loading Diagnostic Script -->
+    <script>
+      // Check if stylesheets are loading
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('=== CSS LOADING DIAGNOSTIC ===');
+        
+        // Get all stylesheet links
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        
+        // Log each stylesheet
+        stylesheets.forEach(function(sheet, index) {
+          console.log(`Stylesheet ${index + 1}:`, {
+            href: sheet.href,
+            loaded: sheet.sheet ? 'SUCCESS' : 'FAILED'
+          });
+        });
+        
+        // Check if any inline styles exist
+        const inlineStyles = document.querySelectorAll('style');
+        console.log(`Found ${inlineStyles.length} inline style elements`);
+        
+        // Check computed styles of a key element to verify CSS application
+        const testElement = document.querySelector('.card') || document.querySelector('.dashboard');
+        if (testElement) {
+          const styles = window.getComputedStyle(testElement);
+          console.log('Test element styles:', {
+            element: testElement.tagName + '.' + testElement.className,
+            backgroundColor: styles.backgroundColor,
+            borderRadius: styles.borderRadius,
+            boxShadow: styles.boxShadow
+          });
+        } else {
+          console.log('Could not find test element to check styles');
+        }
+        
+        console.log('=== END CSS DIAGNOSTIC ===');
+      });
+    </script>
+    
+    <script>
+        // Settings navigation functionality
+        document.querySelectorAll('.settings-nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active nav item
+                document.querySelectorAll('.settings-nav-item').forEach(navItem => {
+                    navItem.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show selected section
+                const section = this.getAttribute('data-section');
+                document.querySelectorAll('.settings-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                document.getElementById(section).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Signal Scanner - Lead Commander</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./main.css">
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Favicon -->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="description" content="Market Signal Scanner - Monitor industry trends, news, and social signals that impact your leads and sales opportunities.">
 </head>
 <body>
@@ -293,5 +293,293 @@
                                         <span class="impact-value low">Low</span>
                                     </div>
                                     <div class="news-leads">
-                            
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                                        <span class="leads-label">Affected Leads:</span>
+                                        <span class="leads-value">3</span>
+                                    </div>
+                                    <div class="news-actions">
+                                        <button class="btn btn-sm btn-outline">View Leads</button>
+                                        <button class="btn btn-sm btn-outline">Read More</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-4 col-lg-4 col-md-2 col-sm-1">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Industry Sentiment</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Details</button>
+                            </div>
+                        </div>
+                        
+                        <div class="chart">
+                            <canvas id="industry-sentiment-chart"></canvas>
+                        </div>
+                        
+                        <div class="sentiment-legend">
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(72, 149, 239, 0.8);"></div>
+                                <div class="legend-label">Technology (82%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(47, 196, 142, 0.8);"></div>
+                                <div class="legend-label">Finance (76%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 159, 64, 0.8);"></div>
+                                <div class="legend-label">Healthcare (68%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(255, 99, 132, 0.8);"></div>
+                                <div class="legend-label">Manufacturing (65%)</div>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-color" style="background-color: rgba(153, 102, 255, 0.8);"></div>
+                                <div class="legend-label">Retail (71%)</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Trending Keywords</div>
+                            <div class="card-actions">
+                                <button class="btn btn-sm btn-outline">Add Keywords</button>
+                            </div>
+                        </div>
+                        
+                        <div class="keyword-cloud">
+                            <div class="keyword-item size-xl">AI</div>
+                            <div class="keyword-item size-l">Digital Transformation</div>
+                            <div class="keyword-item size-m">Cloud Migration</div>
+                            <div class="keyword-item size-xl">Machine Learning</div>
+                            <div class="keyword-item size-s">Cybersecurity</div>
+                            <div class="keyword-item size-m">Data Analytics</div>
+                            <div class="keyword-item size-l">SaaS</div>
+                            <div class="keyword-item size-s">Compliance</div>
+                            <div class="keyword-item size-m">Remote Work</div>
+                            <div class="keyword-item size-l">Automation</div>
+                            <div class="keyword-item size-s">Blockchain</div>
+                            <div class="keyword-item size-m">Customer Experience</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Market Signals Monitor -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Active Signal Monitors</div>
+                    <div class="card-actions">
+                        <div class="filter-dropdown">
+                            <button class="btn btn-sm btn-outline">Filter <span class="dropdown-icon">▼</span></button>
+                            <div class="dropdown-menu">
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> All Types
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> News
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Social Media
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Industry Reports
+                                    </label>
+                                </div>
+                                <div class="dropdown-item">
+                                    <label>
+                                        <input type="checkbox" checked> Competitor Activity
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-sm btn-outline">View All</button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">Monitor Name</th>
+                            <th data-sort="type">Type</th>
+                            <th data-sort="keywords">Keywords</th>
+                            <th data-sort="industry">Industry</th>
+                            <th data-sort="signals">Signals (30d)</th>
+                            <th data-sort="impact">Impact</th>
+                            <th data-sort="status">Status</th>
+                            <th data-sort="actions">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-value="name">Tech Industry News</td>
+                            <td data-value="type">News</td>
+                            <td data-value="keywords">AI, Machine Learning, SaaS</td>
+                            <td data-value="industry">Technology</td>
+                            <td data-value="signals" data-raw-value="42">42</td>
+                            <td data-value="impact">
+                                <span class="impact-badge high">High</span>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View Signals">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Healthcare Regulations</td>
+                            <td data-value="type">Industry Reports</td>
+                            <td data-value="keywords">Compliance, Data Security, Patient Privacy</td>
+                            <td data-value="industry">Healthcare</td>
+                            <td data-value="signals" data-raw-value="28">28</td>
+                            <td data-value="impact">
+                                <span class="impact-badge high">High</span>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View Signals">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Competitor Activity</td>
+                            <td data-value="type">Competitor Activity</td>
+                            <td data-value="keywords">Acme Corp, TechGiant, Innovative Solutions</td>
+                            <td data-value="industry">Technology</td>
+                            <td data-value="signals" data-raw-value="35">35</td>
+                            <td data-value="impact">
+                                <span class="impact-badge medium">Medium</span>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View Signals">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Financial Market Trends</td>
+                            <td data-value="type">News</td>
+                            <td data-value="keywords">Investment, Growth, Market Analysis</td>
+                            <td data-value="industry">Finance</td>
+                            <td data-value="signals" data-raw-value="22">22</td>
+                            <td data-value="impact">
+                                <span class="impact-badge medium">Medium</span>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge active">Active</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Pause">⏸️</button>
+                                    <button class="action-btn" title="View Signals">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Social Media Sentiment</td>
+                            <td data-value="type">Social Media</td>
+                            <td data-value="keywords">Brand Mentions, Customer Feedback</td>
+                            <td data-value="industry">All</td>
+                            <td data-value="signals" data-raw-value="56">56</td>
+                            <td data-value="impact">
+                                <span class="impact-badge low">Low</span>
+                            </td>
+                            <td data-value="status">
+                                <span class="status-badge paused">Paused</span>
+                            </td>
+                            <td data-value="actions">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Edit">✏️</button>
+                                    <button class="action-btn" title="Resume">▶️</button>
+                                    <button class="action-btn" title="View Signals">📊</button>
+                                    <button class="action-btn" title="Delete">🗑️</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+    <!-- CSS Diagnostic Test Element -->
+    <div style="background-color: red; padding: 20px; margin: 20px; border: 3px solid blue; color: white;">
+      If you can see this box with red background and blue border, CSS is working.
+    </div>
+    
+    <!-- CSS Loading Diagnostic Script -->
+    <script>
+      // Check if stylesheets are loading
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('=== CSS LOADING DIAGNOSTIC ===');
+        
+        // Get all stylesheet links
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        
+        // Log each stylesheet
+        stylesheets.forEach(function(sheet, index) {
+          console.log(`Stylesheet ${index + 1}:`, {
+            href: sheet.href,
+            loaded: sheet.sheet ? 'SUCCESS' : 'FAILED'
+          });
+        });
+        
+        // Check if any inline styles exist
+        const inlineStyles = document.querySelectorAll('style');
+        console.log(`Found ${inlineStyles.length} inline style elements`);
+        
+        // Check computed styles of a key element to verify CSS application
+        const testElement = document.querySelector('.card') || document.querySelector('.dashboard');
+        if (testElement) {
+          const styles = window.getComputedStyle(testElement);
+          console.log('Test element styles:', {
+            element: testElement.tagName + '.' + testElement.className,
+            backgroundColor: styles.backgroundColor,
+            borderRadius: styles.borderRadius,
+            boxShadow: styles.boxShadow
+          });
+        } else {
+          console.log('Could not find test element to check styles');
+        }
+        
+        console.log('=== END CSS DIAGNOSTIC ===');
+      });
+    </script>
+    
+    <script>
+        // Chart initialization would be implemented here
+        // This would include creating and configuring the various charts using Chart.js
+    </script>
+</body>
+</html>

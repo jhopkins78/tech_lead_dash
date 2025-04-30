@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Analytics - Lead Commander</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./main.css">
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Favicon -->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="description" content="Analytics - Comprehensive data analysis and visualization tools for your sales performance, lead metrics, and conversion rates.">
 </head>
 <body>
@@ -312,5 +312,173 @@
                                 <div class="period-label">Current Quarter</div>
                                 <div class="period-value">$385,000</div>
                                 <div class="period-progress">
-                                    <div c
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 78%;"></div>
+                                    </div>
+                                    <div class="progress-label">78% of target</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Team Performance -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Team Performance</div>
+                    <div class="card-actions">
+                        <button class="btn btn-sm btn-outline">Export</button>
+                    </div>
+                </div>
+                
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">Team Member</th>
+                            <th data-sort="leads">Leads</th>
+                            <th data-sort="meetings">Meetings</th>
+                            <th data-sort="proposals">Proposals</th>
+                            <th data-sort="closed">Closed Deals</th>
+                            <th data-sort="revenue">Revenue</th>
+                            <th data-sort="conversion">Conversion Rate</th>
+                            <th data-sort="target">Target Achievement</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-value="name">John Smith</td>
+                            <td data-value="leads" data-raw-value="42">42</td>
+                            <td data-value="meetings" data-raw-value="28">28</td>
+                            <td data-value="proposals" data-raw-value="18">18</td>
+                            <td data-value="closed" data-raw-value="12">12</td>
+                            <td data-value="revenue" data-raw-value="125000">$125,000</td>
+                            <td data-value="conversion" data-raw-value="28.6">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 28.6%;"></div>
+                                    <div class="progress-text">28.6%</div>
+                                </div>
+                            </td>
+                            <td data-value="target" data-raw-value="83.3">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 83.3%;"></div>
+                                    <div class="progress-text">83.3%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Sarah Johnson</td>
+                            <td data-value="leads" data-raw-value="38">38</td>
+                            <td data-value="meetings" data-raw-value="25">25</td>
+                            <td data-value="proposals" data-raw-value="15">15</td>
+                            <td data-value="closed" data-raw-value="9">9</td>
+                            <td data-value="revenue" data-raw-value="98000">$98,000</td>
+                            <td data-value="conversion" data-raw-value="23.7">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 23.7%;"></div>
+                                    <div class="progress-text">23.7%</div>
+                                </div>
+                            </td>
+                            <td data-value="target" data-raw-value="65.3">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 65.3%;"></div>
+                                    <div class="progress-text">65.3%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Michael Brown</td>
+                            <td data-value="leads" data-raw-value="45">45</td>
+                            <td data-value="meetings" data-raw-value="32">32</td>
+                            <td data-value="proposals" data-raw-value="22">22</td>
+                            <td data-value="closed" data-raw-value="14">14</td>
+                            <td data-value="revenue" data-raw-value="145000">$145,000</td>
+                            <td data-value="conversion" data-raw-value="31.1">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 31.1%;"></div>
+                                    <div class="progress-text">31.1%</div>
+                                </div>
+                            </td>
+                            <td data-value="target" data-raw-value="96.7">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 96.7%;"></div>
+                                    <div class="progress-text">96.7%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td data-value="name">Emily Davis</td>
+                            <td data-value="leads" data-raw-value="35">35</td>
+                            <td data-value="meetings" data-raw-value="22">22</td>
+                            <td data-value="proposals" data-raw-value="12">12</td>
+                            <td data-value="closed" data-raw-value="7">7</td>
+                            <td data-value="revenue" data-raw-value="78000">$78,000</td>
+                            <td data-value="conversion" data-raw-value="20.0">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 20.0%;"></div>
+                                    <div class="progress-text">20.0%</div>
+                                </div>
+                            </td>
+                            <td data-value="target" data-raw-value="52.0">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 52.0%;"></div>
+                                    <div class="progress-text">52.0%</div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    
+    <!-- CSS Diagnostic Test Element -->
+    <div style="background-color: red; padding: 20px; margin: 20px; border: 3px solid blue; color: white;">
+      If you can see this box with red background and blue border, CSS is working.
+    </div>
+    
+    <!-- CSS Loading Diagnostic Script -->
+    <script>
+      // Check if stylesheets are loading
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('=== CSS LOADING DIAGNOSTIC ===');
+        
+        // Get all stylesheet links
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        
+        // Log each stylesheet
+        stylesheets.forEach(function(sheet, index) {
+          console.log(`Stylesheet ${index + 1}:`, {
+            href: sheet.href,
+            loaded: sheet.sheet ? 'SUCCESS' : 'FAILED'
+          });
+        });
+        
+        // Check if any inline styles exist
+        const inlineStyles = document.querySelectorAll('style');
+        console.log(`Found ${inlineStyles.length} inline style elements`);
+        
+        // Check computed styles of a key element to verify CSS application
+        const testElement = document.querySelector('.card') || document.querySelector('.dashboard');
+        if (testElement) {
+          const styles = window.getComputedStyle(testElement);
+          console.log('Test element styles:', {
+            element: testElement.tagName + '.' + testElement.className,
+            backgroundColor: styles.backgroundColor,
+            borderRadius: styles.borderRadius,
+            boxShadow: styles.boxShadow
+          });
+        } else {
+          console.log('Could not find test element to check styles');
+        }
+        
+        console.log('=== END CSS DIAGNOSTIC ===');
+      });
+    </script>
+    
+    <script>
+        // Chart initialization would be implemented here
+        // This would include creating and configuring the various charts using Chart.js
+    </script>
+</body>
+</html>

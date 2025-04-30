@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pipeline Dynamics - Lead Commander</title>
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="./main.css">
     <!-- Chart.js for data visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Favicon -->
-    <link rel="icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <meta name="description" content="Pipeline Dynamics - Visual representation of the sales pipeline with drag-and-drop functionality for moving leads between stages.">
 </head>
 <body>
@@ -313,5 +313,193 @@
                                 <div class="card-meta">
                                     <div class="card-owner">JS</div>
                                     <div class="card-due">Jul 15</div>
-              
-(Content truncated due to size limit. Use line ranges to read in chunks)
+                                </div>
+                            </div>
+                            
+                            <div class="kanban-card" id="deal-002" data-status="qualified">
+                                <div class="card-title">TechGiant Solutions</div>
+                                <div class="card-subtitle">Data Integration Platform</div>
+                                <div class="card-value">$120,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 22</div>
+                                </div>
+                            </div>
+                            
+                            <div class="kanban-card" id="deal-003" data-status="qualified">
+                                <div class="card-title">Global Enterprises</div>
+                                <div class="card-subtitle">Sales Analytics Suite</div>
+                                <div class="card-value">$45,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 30</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-column" data-status="meeting">
+                        <div class="column-header">
+                            <div class="column-title">Meeting</div>
+                            <div class="column-counter">5</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card" id="deal-004" data-status="meeting">
+                                <div class="card-title">Innovative Solutions</div>
+                                <div class="card-subtitle">Marketing Automation</div>
+                                <div class="card-value">$65,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 18</div>
+                                </div>
+                            </div>
+                            
+                            <div class="kanban-card" id="deal-005" data-status="meeting">
+                                <div class="card-title">Financial Partners</div>
+                                <div class="card-subtitle">Compliance Solution</div>
+                                <div class="card-value">$95,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 25</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-column" data-status="proposal">
+                        <div class="column-header">
+                            <div class="column-title">Proposal</div>
+                            <div class="column-counter">4</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card" id="deal-006" data-status="proposal">
+                                <div class="card-title">Quantum Dynamics</div>
+                                <div class="card-subtitle">Research Platform</div>
+                                <div class="card-value">$85,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 20</div>
+                                </div>
+                            </div>
+                            
+                            <div class="kanban-card" id="deal-007" data-status="proposal">
+                                <div class="card-title">Stellar Enterprises</div>
+                                <div class="card-subtitle">Cloud Migration</div>
+                                <div class="card-value">$150,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Aug 5</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-column" data-status="negotiation">
+                        <div class="column-header">
+                            <div class="column-title">Negotiation</div>
+                            <div class="column-counter">3</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card" id="deal-008" data-status="negotiation">
+                                <div class="card-title">Horizon Financial</div>
+                                <div class="card-subtitle">Investment Platform</div>
+                                <div class="card-value">$200,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Jul 28</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="kanban-column" data-status="closed">
+                        <div class="column-header">
+                            <div class="column-title">Closed Won</div>
+                            <div class="column-counter">2</div>
+                        </div>
+                        <div class="kanban-cards">
+                            <div class="kanban-card" id="deal-009" data-status="closed">
+                                <div class="card-title">Pinnacle Systems</div>
+                                <div class="card-subtitle">Security Suite</div>
+                                <div class="card-value">$110,000</div>
+                                <div class="card-meta">
+                                    <div class="card-owner">JS</div>
+                                    <div class="card-due">Completed</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Deal Detail Modal (Hidden by default) -->
+    <div class="modal-overlay" id="deal-detail-modal-overlay" style="display: none;">
+        <div class="modal deal-detail-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">Deal Details</h3>
+                <button class="close-btn" id="close-detail-modal">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Deal detail content will be dynamically inserted here -->
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn btn-outline">Close</button>
+                <button class="btn btn-primary">Edit Deal</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- CSS Diagnostic Test Element -->
+    <div style="background-color: red; padding: 20px; margin: 20px; border: 3px solid blue; color: white;">
+      If you can see this box with red background and blue border, CSS is working.
+    </div>
+    
+    <!-- CSS Loading Diagnostic Script -->
+    <script>
+      // Check if stylesheets are loading
+      window.addEventListener('DOMContentLoaded', function() {
+        console.log('=== CSS LOADING DIAGNOSTIC ===');
+        
+        // Get all stylesheet links
+        const stylesheets = document.querySelectorAll('link[rel="stylesheet"]');
+        
+        // Log each stylesheet
+        stylesheets.forEach(function(sheet, index) {
+          console.log(`Stylesheet ${index + 1}:`, {
+            href: sheet.href,
+            loaded: sheet.sheet ? 'SUCCESS' : 'FAILED'
+          });
+        });
+        
+        // Check if any inline styles exist
+        const inlineStyles = document.querySelectorAll('style');
+        console.log(`Found ${inlineStyles.length} inline style elements`);
+        
+        // Check computed styles of a key element to verify CSS application
+        const testElement = document.querySelector('.card') || document.querySelector('.dashboard');
+        if (testElement) {
+          const styles = window.getComputedStyle(testElement);
+          console.log('Test element styles:', {
+            element: testElement.tagName + '.' + testElement.className,
+            backgroundColor: styles.backgroundColor,
+            borderRadius: styles.borderRadius,
+            boxShadow: styles.boxShadow
+          });
+        } else {
+          console.log('Could not find test element to check styles');
+        }
+        
+        console.log('=== END CSS DIAGNOSTIC ===');
+      });
+    </script>
+    
+    <script>
+        // Kanban board functionality would be implemented here
+        // This would include drag-and-drop functionality for moving deals between stages
+    </script>
+</body>
+</html>

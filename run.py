@@ -22,13 +22,29 @@ def setup_environment():
     """Check if virtual environment exists, create if not"""
     if not os.path.exists('venv'):
         print("Creating virtual environment...")
-        subprocess.run([sys.executable, '-m', 'venv', 'venv'], check=True)
-        
-        # Determine the pip path based on the OS
-        pip_path = os.path.join('venv', 'Scripts', 'pip') if sys.platform == 'win32' else os.path.join('venv', 'bin', 'pip')
-        
-        print("Installing dependencies...")
-        subprocess.run([pip_path, 'install', '-r', 'requirements.txt'], check=True)
+        try:
+            subprocess.run([sys.executable, '-m', 'venv', 'venv'], check=True)
+            
+            # Determine the pip path based on the OS
+            pip_path = os.path.join('venv', 'Scripts', 'pip') if sys.platform == 'win32' else os.path.join('venv', 'bin', 'pip')
+            
+            # Check if pip exists
+            if not os.path.exists(pip_path):
+                print(f"Pip not found at {pip_path}. Using system pip instead.")
+                pip_path = 'pip'
+            
+            print("Installing dependencies...")
+            try:
+                subprocess.run([pip_path, 'install', '-r', 'requirements.txt'], check=True)
+            except (subprocess.CalledProcessError, FileNotFoundError) as e:
+                print(f"Error installing dependencies with venv pip: {e}")
+                print("Falling back to system pip...")
+                subprocess.run([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'], check=True)
+        except Exception as e:
+            print(f"Error setting up virtual environment: {e}")
+            print("Continuing with system Python...")
+    else:
+        print("Virtual environment already exists.")
     
     return True
 
@@ -36,34 +52,100 @@ def init_database():
     """Initialize the database"""
     print("Initializing database...")
     
+    # Check if virtual environment exists
+    if not os.path.exists('venv'):
+        print("Virtual environment not found. Setting up environment first...")
+        setup_environment()
+    
     # Determine the python path based on the OS
     python_path = os.path.join('venv', 'Scripts', 'python') if sys.platform == 'win32' else os.path.join('venv', 'bin', 'python')
     
-    subprocess.run([python_path, 'init_db.py'], check=True)
+    # Check if the Python executable exists
+    if not os.path.exists(python_path):
+        print(f"Python executable not found at {python_path}. Using system Python instead.")
+        python_path = sys.executable
     
-    return True
+    try:
+        subprocess.run([python_path, 'init_db.py'], check=True)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error initializing database: {e}")
+        return False
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        print("Falling back to system Python...")
+        try:
+            subprocess.run([sys.executable, 'init_db.py'], check=True)
+            return True
+        except Exception as e:
+            print(f"Error initializing database with system Python: {e}")
+            return False
 
 def run_application():
     """Run the Flask application"""
     print("Starting Flask application...")
     
+    # Check if virtual environment exists
+    if not os.path.exists('venv'):
+        print("Virtual environment not found. Setting up environment first...")
+        setup_environment()
+    
     # Determine the python path based on the OS
     python_path = os.path.join('venv', 'Scripts', 'python') if sys.platform == 'win32' else os.path.join('venv', 'bin', 'python')
     
-    subprocess.run([python_path, 'app.py'], check=True)
+    # Check if the Python executable exists
+    if not os.path.exists(python_path):
+        print(f"Python executable not found at {python_path}. Using system Python instead.")
+        python_path = sys.executable
     
-    return True
+    try:
+        subprocess.run([python_path, 'app.py'], check=True)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error running application: {e}")
+        return False
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        print("Falling back to system Python...")
+        try:
+            subprocess.run([sys.executable, 'app.py'], check=True)
+            return True
+        except Exception as e:
+            print(f"Error running application with system Python: {e}")
+            return False
 
 def run_tests():
     """Run the API tests"""
     print("Running API tests...")
     
+    # Check if virtual environment exists
+    if not os.path.exists('venv'):
+        print("Virtual environment not found. Setting up environment first...")
+        setup_environment()
+    
     # Determine the python path based on the OS
     python_path = os.path.join('venv', 'Scripts', 'python') if sys.platform == 'win32' else os.path.join('venv', 'bin', 'python')
     
-    subprocess.run([python_path, 'test_api.py'], check=True)
+    # Check if the Python executable exists
+    if not os.path.exists(python_path):
+        print(f"Python executable not found at {python_path}. Using system Python instead.")
+        python_path = sys.executable
     
-    return True
+    try:
+        subprocess.run([python_path, 'test_api.py'], check=True)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error running tests: {e}")
+        return False
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+        print("Falling back to system Python...")
+        try:
+            subprocess.run([sys.executable, 'test_api.py'], check=True)
+            return True
+        except Exception as e:
+            print(f"Error running tests with system Python: {e}")
+            return False
 
 def main():
     """Main function"""
